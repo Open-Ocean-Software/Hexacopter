@@ -1,0 +1,2844 @@
+
+LightManager.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00001046  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000066  00800060  00001046  000010da  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000044  008000c6  008000c6  00001140  2**0
+                  ALLOC
+  3 .debug_aranges 000001a8  00000000  00000000  00001140  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_pubnames 000006c8  00000000  00000000  000012e8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   0000122f  00000000  00000000  000019b0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 000005e8  00000000  00000000  00002bdf  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   0000105c  00000000  00000000  000031c7  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  000002b0  00000000  00000000  00004224  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    00000720  00000000  00000000  000044d4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    000007fb  00000000  00000000  00004bf4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 000001e0  00000000  00000000  000053ef  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+	//Enable SPI in the control register
+	SPCR = (1 << SPE);
+}
+
+unsigned char SPITransceive(unsigned char data)
+{
+       0:	12 c0       	rjmp	.+36     	; 0x26 <__ctors_end>
+       2:	2c c0       	rjmp	.+88     	; 0x5c <__bad_interrupt>
+       4:	2b c0       	rjmp	.+86     	; 0x5c <__bad_interrupt>
+       6:	2a c0       	rjmp	.+84     	; 0x5c <__bad_interrupt>
+       8:	29 c0       	rjmp	.+82     	; 0x5c <__bad_interrupt>
+       a:	28 c0       	rjmp	.+80     	; 0x5c <__bad_interrupt>
+       c:	27 c0       	rjmp	.+78     	; 0x5c <__bad_interrupt>
+       e:	26 c0       	rjmp	.+76     	; 0x5c <__bad_interrupt>
+      10:	25 c0       	rjmp	.+74     	; 0x5c <__bad_interrupt>
+      12:	8e c0       	rjmp	.+284    	; 0x130 <__vector_9>
+      14:	23 c0       	rjmp	.+70     	; 0x5c <__bad_interrupt>
+      16:	22 c0       	rjmp	.+68     	; 0x5c <__bad_interrupt>
+      18:	21 c0       	rjmp	.+66     	; 0x5c <__bad_interrupt>
+      1a:	20 c0       	rjmp	.+64     	; 0x5c <__bad_interrupt>
+      1c:	1f c0       	rjmp	.+62     	; 0x5c <__bad_interrupt>
+      1e:	1e c0       	rjmp	.+60     	; 0x5c <__bad_interrupt>
+      20:	1d c0       	rjmp	.+58     	; 0x5c <__bad_interrupt>
+      22:	1c c0       	rjmp	.+56     	; 0x5c <__bad_interrupt>
+      24:	1b c0       	rjmp	.+54     	; 0x5c <__bad_interrupt>
+
+00000026 <__ctors_end>:
+      26:	11 24       	eor	r1, r1
+      28:	1f be       	out	0x3f, r1	; 63
+      2a:	cf e5       	ldi	r28, 0x5F	; 95
+      2c:	d4 e0       	ldi	r29, 0x04	; 4
+      2e:	de bf       	out	0x3e, r29	; 62
+      30:	cd bf       	out	0x3d, r28	; 61
+
+00000032 <__do_copy_data>:
+      32:	10 e0       	ldi	r17, 0x00	; 0
+      34:	a0 e6       	ldi	r26, 0x60	; 96
+      36:	b0 e0       	ldi	r27, 0x00	; 0
+      38:	e6 e4       	ldi	r30, 0x46	; 70
+      3a:	f0 e1       	ldi	r31, 0x10	; 16
+      3c:	02 c0       	rjmp	.+4      	; 0x42 <.do_copy_data_start>
+
+0000003e <.do_copy_data_loop>:
+      3e:	05 90       	lpm	r0, Z+
+      40:	0d 92       	st	X+, r0
+
+00000042 <.do_copy_data_start>:
+      42:	a6 3c       	cpi	r26, 0xC6	; 198
+      44:	b1 07       	cpc	r27, r17
+      46:	d9 f7       	brne	.-10     	; 0x3e <.do_copy_data_loop>
+
+00000048 <__do_clear_bss>:
+      48:	11 e0       	ldi	r17, 0x01	; 1
+      4a:	a6 ec       	ldi	r26, 0xC6	; 198
+      4c:	b0 e0       	ldi	r27, 0x00	; 0
+      4e:	01 c0       	rjmp	.+2      	; 0x52 <.do_clear_bss_start>
+
+00000050 <.do_clear_bss_loop>:
+      50:	1d 92       	st	X+, r1
+
+00000052 <.do_clear_bss_start>:
+      52:	aa 30       	cpi	r26, 0x0A	; 10
+      54:	b1 07       	cpc	r27, r17
+      56:	e1 f7       	brne	.-8      	; 0x50 <.do_clear_bss_loop>
+      58:	aa d0       	rcall	.+340    	; 0x1ae <main>
+      5a:	f3 c7       	rjmp	.+4070   	; 0x1042 <_exit>
+
+0000005c <__bad_interrupt>:
+      5c:	d1 cf       	rjmp	.-94     	; 0x0 <__vectors>
+
+0000005e <SPIInitialize>:
+#include "SPISlave.h"
+
+void SPIInitialize()
+{
+	//Set MISO to output, all others input
+	DDRB = (1 << PB6);
+      5e:	80 e4       	ldi	r24, 0x40	; 64
+      60:	87 bb       	out	0x17, r24	; 23
+	//Enable SPI in the control register
+	SPCR = (1 << SPE);
+      62:	8d b9       	out	0x0d, r24	; 13
+}
+      64:	08 95       	ret
+
+00000066 <SPIPseudoReceive>:
+	//Wait until transmission is complete
+	while(!(SPSR & (1 << SPIF)));
+}
+
+unsigned char SPIPseudoReceive(unsigned char *data)
+{
+      66:	fc 01       	movw	r30, r24
+	//Check if transmission is complete.
+	if(SPSR & (1 << SPIF))
+      68:	8e b1       	in	r24, 0x0e	; 14
+      6a:	88 23       	and	r24, r24
+      6c:	14 f0       	brlt	.+4      	; 0x72 <SPIPseudoReceive+0xc>
+      6e:	80 e0       	ldi	r24, 0x00	; 0
+      70:	08 95       	ret
+	{
+		//Set data
+		*data = SPDR;
+      72:	8f b1       	in	r24, 0x0f	; 15
+      74:	80 83       	st	Z, r24
+      76:	81 e0       	ldi	r24, 0x01	; 1
+		return 0x1;
+	}
+
+	//Failed
+	return 0x0;
+}
+      78:	08 95       	ret
+
+0000007a <SPIPseudoTransmit>:
+
+void SPIPseudoTransmit(unsigned char data)
+{
+	SPDR = data;
+      7a:	8f b9       	out	0x0f, r24	; 15
+      7c:	08 95       	ret
+
+0000007e <GetRegisterValue>:
+		while(1);
+    }
+}
+
+unsigned char GetRegisterValue(uint8_t id)
+{
+      7e:	98 2f       	mov	r25, r24
+      80:	e5 e6       	ldi	r30, 0x65	; 101
+      82:	f0 e0       	ldi	r31, 0x00	; 0
+      84:	20 e0       	ldi	r18, 0x00	; 0
+      86:	30 e0       	ldi	r19, 0x00	; 0
+	for(int i = 0; i < REGISTER_COUNT; i++)
+	{
+		if(REGISTERS[i].Id == id)
+      88:	80 81       	ld	r24, Z
+      8a:	89 17       	cp	r24, r25
+      8c:	59 f4       	brne	.+22     	; 0xa4 <GetRegisterValue+0x26>
+		{
+			return REGISTERS[i].Value;
+      8e:	f9 01       	movw	r30, r18
+      90:	ee 0f       	add	r30, r30
+      92:	ff 1f       	adc	r31, r31
+      94:	ee 0f       	add	r30, r30
+      96:	ff 1f       	adc	r31, r31
+      98:	e2 0f       	add	r30, r18
+      9a:	f3 1f       	adc	r31, r19
+      9c:	ea 59       	subi	r30, 0x9A	; 154
+      9e:	ff 4f       	sbci	r31, 0xFF	; 255
+      a0:	80 81       	ld	r24, Z
+      a2:	08 95       	ret
+    }
+}
+
+unsigned char GetRegisterValue(uint8_t id)
+{
+	for(int i = 0; i < REGISTER_COUNT; i++)
+      a4:	2f 5f       	subi	r18, 0xFF	; 255
+      a6:	3f 4f       	sbci	r19, 0xFF	; 255
+      a8:	35 96       	adiw	r30, 0x05	; 5
+      aa:	20 31       	cpi	r18, 0x10	; 16
+      ac:	31 05       	cpc	r19, r1
+      ae:	61 f7       	brne	.-40     	; 0x88 <GetRegisterValue+0xa>
+      b0:	80 e0       	ldi	r24, 0x00	; 0
+		{
+			return REGISTERS[i].Value;
+		}
+	}
+	return 0;
+}
+      b2:	08 95       	ret
+
+000000b4 <SetRegisterValue>:
+
+void SetRegisterValue(uint8_t id, unsigned char value)
+{
+      b4:	98 2f       	mov	r25, r24
+      b6:	e5 e6       	ldi	r30, 0x65	; 101
+      b8:	f0 e0       	ldi	r31, 0x00	; 0
+      ba:	20 e0       	ldi	r18, 0x00	; 0
+      bc:	30 e0       	ldi	r19, 0x00	; 0
+	for(int i = 0; i < REGISTER_COUNT; i++)
+	{
+		if(REGISTERS[i].Id == id)
+      be:	80 81       	ld	r24, Z
+      c0:	89 17       	cp	r24, r25
+      c2:	81 f4       	brne	.+32     	; 0xe4 <SetRegisterValue+0x30>
+		{
+			REGISTERS[i].Value = value;
+      c4:	f9 01       	movw	r30, r18
+      c6:	ee 0f       	add	r30, r30
+      c8:	ff 1f       	adc	r31, r31
+      ca:	ee 0f       	add	r30, r30
+      cc:	ff 1f       	adc	r31, r31
+      ce:	e2 0f       	add	r30, r18
+      d0:	f3 1f       	adc	r31, r19
+      d2:	eb 59       	subi	r30, 0x9B	; 155
+      d4:	ff 4f       	sbci	r31, 0xFF	; 255
+      d6:	61 83       	std	Z+1, r22	; 0x01
+			REGISTERS[i].Callback(id, value);
+      d8:	03 80       	ldd	r0, Z+3	; 0x03
+      da:	f4 81       	ldd	r31, Z+4	; 0x04
+      dc:	e0 2d       	mov	r30, r0
+      de:	89 2f       	mov	r24, r25
+      e0:	09 95       	icall
+      e2:	08 95       	ret
+	return 0;
+}
+
+void SetRegisterValue(uint8_t id, unsigned char value)
+{
+	for(int i = 0; i < REGISTER_COUNT; i++)
+      e4:	2f 5f       	subi	r18, 0xFF	; 255
+      e6:	3f 4f       	sbci	r19, 0xFF	; 255
+      e8:	35 96       	adiw	r30, 0x05	; 5
+      ea:	20 31       	cpi	r18, 0x10	; 16
+      ec:	31 05       	cpc	r19, r1
+      ee:	39 f7       	brne	.-50     	; 0xbe <SetRegisterValue+0xa>
+      f0:	08 95       	ret
+
+000000f2 <UpdateLights>:
+		}
+	}
+}
+
+void UpdateLights(double currentMS)
+{
+      f2:	ef 92       	push	r14
+      f4:	ff 92       	push	r15
+      f6:	0f 93       	push	r16
+      f8:	1f 93       	push	r17
+      fa:	cf 93       	push	r28
+      fc:	df 93       	push	r29
+	int ms = (int)(currentMS * 1000.0);
+      fe:	20 e0       	ldi	r18, 0x00	; 0
+     100:	30 e0       	ldi	r19, 0x00	; 0
+     102:	4a e7       	ldi	r20, 0x7A	; 122
+     104:	54 e4       	ldi	r21, 0x44	; 68
+     106:	16 d7       	rcall	.+3628   	; 0xf34 <__mulsf3>
+     108:	52 d6       	rcall	.+3236   	; 0xdae <__fixsfsi>
+     10a:	7b 01       	movw	r14, r22
+     10c:	c5 eb       	ldi	r28, 0xB5	; 181
+     10e:	d0 e0       	ldi	r29, 0x00	; 0
+
+	for(int i = 0; i < RENDER_EVENT_COUNT; i++)
+     110:	05 ec       	ldi	r16, 0xC5	; 197
+     112:	10 e0       	ldi	r17, 0x00	; 0
+	{
+		RenderEvents[i](ms);
+     114:	e9 91       	ld	r30, Y+
+     116:	f9 91       	ld	r31, Y+
+     118:	c7 01       	movw	r24, r14
+     11a:	09 95       	icall
+
+void UpdateLights(double currentMS)
+{
+	int ms = (int)(currentMS * 1000.0);
+
+	for(int i = 0; i < RENDER_EVENT_COUNT; i++)
+     11c:	c0 17       	cp	r28, r16
+     11e:	d1 07       	cpc	r29, r17
+     120:	c9 f7       	brne	.-14     	; 0x114 <UpdateLights+0x22>
+	{
+		RenderEvents[i](ms);
+	}
+}
+     122:	df 91       	pop	r29
+     124:	cf 91       	pop	r28
+     126:	1f 91       	pop	r17
+     128:	0f 91       	pop	r16
+     12a:	ff 90       	pop	r15
+     12c:	ef 90       	pop	r14
+     12e:	08 95       	ret
+
+00000130 <__vector_9>:
+
+ISR(TIMER0_OVF_vect)
+{
+     130:	1f 92       	push	r1
+     132:	0f 92       	push	r0
+     134:	0f b6       	in	r0, 0x3f	; 63
+     136:	0f 92       	push	r0
+     138:	11 24       	eor	r1, r1
+     13a:	2f 93       	push	r18
+     13c:	3f 93       	push	r19
+     13e:	4f 93       	push	r20
+     140:	5f 93       	push	r21
+     142:	6f 93       	push	r22
+     144:	7f 93       	push	r23
+     146:	8f 93       	push	r24
+     148:	9f 93       	push	r25
+     14a:	af 93       	push	r26
+     14c:	bf 93       	push	r27
+     14e:	ef 93       	push	r30
+     150:	ff 93       	push	r31
+	if(Enabled)
+     152:	80 91 60 00 	lds	r24, 0x0060
+     156:	88 23       	and	r24, r24
+     158:	c9 f0       	breq	.+50     	; 0x18c <__vector_9+0x5c>
+	{
+		SystemMS += TimerOverflowIncrement;
+     15a:	60 91 c6 00 	lds	r22, 0x00C6
+     15e:	70 91 c7 00 	lds	r23, 0x00C7
+     162:	80 91 c8 00 	lds	r24, 0x00C8
+     166:	90 91 c9 00 	lds	r25, 0x00C9
+     16a:	20 91 ed 00 	lds	r18, 0x00ED
+     16e:	30 91 ee 00 	lds	r19, 0x00EE
+     172:	40 91 ef 00 	lds	r20, 0x00EF
+     176:	50 91 f0 00 	lds	r21, 0x00F0
+     17a:	4d d5       	rcall	.+2714   	; 0xc16 <__addsf3>
+     17c:	60 93 c6 00 	sts	0x00C6, r22
+     180:	70 93 c7 00 	sts	0x00C7, r23
+     184:	80 93 c8 00 	sts	0x00C8, r24
+     188:	90 93 c9 00 	sts	0x00C9, r25
+	}
+}
+     18c:	ff 91       	pop	r31
+     18e:	ef 91       	pop	r30
+     190:	bf 91       	pop	r27
+     192:	af 91       	pop	r26
+     194:	9f 91       	pop	r25
+     196:	8f 91       	pop	r24
+     198:	7f 91       	pop	r23
+     19a:	6f 91       	pop	r22
+     19c:	5f 91       	pop	r21
+     19e:	4f 91       	pop	r20
+     1a0:	3f 91       	pop	r19
+     1a2:	2f 91       	pop	r18
+     1a4:	0f 90       	pop	r0
+     1a6:	0f be       	out	0x3f, r0	; 63
+     1a8:	0f 90       	pop	r0
+     1aa:	1f 90       	pop	r1
+     1ac:	18 95       	reti
+
+000001ae <main>:
+#include "Main.h"
+
+volatile double SystemMS = 0;
+
+int main(void)
+{
+     1ae:	6f 92       	push	r6
+     1b0:	7f 92       	push	r7
+     1b2:	8f 92       	push	r8
+     1b4:	9f 92       	push	r9
+     1b6:	af 92       	push	r10
+     1b8:	bf 92       	push	r11
+     1ba:	cf 92       	push	r12
+     1bc:	df 92       	push	r13
+     1be:	ef 92       	push	r14
+     1c0:	ff 92       	push	r15
+     1c2:	0f 93       	push	r16
+     1c4:	1f 93       	push	r17
+     1c6:	df 93       	push	r29
+     1c8:	cf 93       	push	r28
+     1ca:	0f 92       	push	r0
+     1cc:	cd b7       	in	r28, 0x3d	; 61
+     1ce:	de b7       	in	r29, 0x3e	; 62
+    while (1) 
+    {
+		SPIInitialize();
+     1d0:	46 df       	rcall	.-372    	; 0x5e <SPIInitialize>
+		InitializeManager();
+     1d2:	99 d0       	rcall	.+306    	; 0x306 <InitializeManager>
+		
+		//Enable overflow interrupt
+		TIMSK |= (1 << TOIE0);
+     1d4:	e9 e5       	ldi	r30, 0x59	; 89
+     1d6:	f0 e0       	ldi	r31, 0x00	; 0
+     1d8:	80 81       	ld	r24, Z
+     1da:	81 60       	ori	r24, 0x01	; 1
+     1dc:	80 83       	st	Z, r24
+		//Initialize Prescaler = F_CPU/RES
+		SetTimerResolution(DefaultTimerResolution);
+     1de:	80 91 c5 00 	lds	r24, 0x00C5
+     1e2:	a9 d1       	rcall	.+850    	; 0x536 <SetTimerResolution>
+		
+		//Initialize timer to zero
+		TCNT0 = 0;
+     1e4:	12 be       	out	0x32, r1	; 50
+		SystemMS = 0;
+     1e6:	80 e0       	ldi	r24, 0x00	; 0
+     1e8:	90 e0       	ldi	r25, 0x00	; 0
+     1ea:	a0 e0       	ldi	r26, 0x00	; 0
+     1ec:	b0 e0       	ldi	r27, 0x00	; 0
+     1ee:	80 93 c6 00 	sts	0x00C6, r24
+     1f2:	90 93 c7 00 	sts	0x00C7, r25
+     1f6:	a0 93 c8 00 	sts	0x00C8, r26
+     1fa:	b0 93 c9 00 	sts	0x00C9, r27
+		
+		//Enable global interrupts
+		sei();
+     1fe:	78 94       	sei
+     200:	99 24       	eor	r9, r9
+		static double currentCycleMS = 0;
+
+		while(1)
+		{
+			//Send/Receive Data
+			if(SPIPseudoReceive(&data))
+     202:	3e 01       	movw	r6, r28
+     204:	08 94       	sec
+     206:	61 1c       	adc	r6, r1
+     208:	71 1c       	adc	r7, r1
+						}
+						else if((regid & READWRITE_FILTER) == READ_FILTER_VALUE)
+						{
+							//Read and transmit value
+							unsigned char regval = GetRegisterValue(regid);
+							SPIPseudoTransmit(regval);
+     20a:	88 24       	eor	r8, r8
+		static double currentCycleMS = 0;
+
+		while(1)
+		{
+			//Send/Receive Data
+			if(SPIPseudoReceive(&data))
+     20c:	c3 01       	movw	r24, r6
+     20e:	2b df       	rcall	.-426    	; 0x66 <SPIPseudoReceive>
+     210:	88 23       	and	r24, r24
+     212:	c1 f0       	breq	.+48     	; 0x244 <main+0x96>
+			{
+				if(regid)
+     214:	99 20       	and	r9, r9
+     216:	a9 f0       	breq	.+42     	; 0x242 <main+0x94>
+				{
+					if(Enabled || (regid == REG_CONTROL))
+     218:	80 91 60 00 	lds	r24, 0x0060
+     21c:	88 23       	and	r24, r24
+     21e:	29 f4       	brne	.+10     	; 0x22a <main+0x7c>
+     220:	81 e0       	ldi	r24, 0x01	; 1
+     222:	98 16       	cp	r9, r24
+     224:	49 f0       	breq	.+18     	; 0x238 <main+0x8a>
+     226:	98 2c       	mov	r9, r8
+     228:	0d c0       	rjmp	.+26     	; 0x244 <main+0x96>
+					{
+						if((regid & READWRITE_FILTER) == WRITE_FILTER_VALUE)
+     22a:	99 20       	and	r9, r9
+     22c:	2c f4       	brge	.+10     	; 0x238 <main+0x8a>
+						{
+							//Write to register
+							SetRegisterValue(regid, data);
+     22e:	89 2d       	mov	r24, r9
+     230:	69 81       	ldd	r22, Y+1	; 0x01
+     232:	40 df       	rcall	.-384    	; 0xb4 <SetRegisterValue>
+     234:	98 2c       	mov	r9, r8
+     236:	06 c0       	rjmp	.+12     	; 0x244 <main+0x96>
+						}
+						else if((regid & READWRITE_FILTER) == READ_FILTER_VALUE)
+						{
+							//Read and transmit value
+							unsigned char regval = GetRegisterValue(regid);
+     238:	89 2d       	mov	r24, r9
+     23a:	21 df       	rcall	.-446    	; 0x7e <GetRegisterValue>
+							SPIPseudoTransmit(regval);
+     23c:	1e df       	rcall	.-452    	; 0x7a <SPIPseudoTransmit>
+     23e:	98 2c       	mov	r9, r8
+     240:	01 c0       	rjmp	.+2      	; 0x244 <main+0x96>
+					}
+					regid = 0x00;
+				}
+				else
+				{
+					regid = data;
+     242:	99 80       	ldd	r9, Y+1	; 0x01
+				}
+			}
+
+			//Lights
+			currentCycleMS = SystemMS - lastOriginalMS;
+     244:	60 91 c6 00 	lds	r22, 0x00C6
+     248:	70 91 c7 00 	lds	r23, 0x00C7
+     24c:	80 91 c8 00 	lds	r24, 0x00C8
+     250:	90 91 c9 00 	lds	r25, 0x00C9
+     254:	20 91 ce 00 	lds	r18, 0x00CE
+     258:	30 91 cf 00 	lds	r19, 0x00CF
+     25c:	40 91 d0 00 	lds	r20, 0x00D0
+     260:	50 91 d1 00 	lds	r21, 0x00D1
+     264:	d7 d4       	rcall	.+2478   	; 0xc14 <__subsf3>
+     266:	7b 01       	movw	r14, r22
+     268:	8c 01       	movw	r16, r24
+     26a:	60 93 ca 00 	sts	0x00CA, r22
+     26e:	70 93 cb 00 	sts	0x00CB, r23
+     272:	80 93 cc 00 	sts	0x00CC, r24
+     276:	90 93 cd 00 	sts	0x00CD, r25
+			if(currentCycleMS > ((double)DutyCyclePeriod) / 1000.0)
+     27a:	60 91 d2 00 	lds	r22, 0x00D2
+     27e:	70 91 d3 00 	lds	r23, 0x00D3
+     282:	80 e0       	ldi	r24, 0x00	; 0
+     284:	90 e0       	ldi	r25, 0x00	; 0
+     286:	c4 d5       	rcall	.+2952   	; 0xe10 <__floatunsisf>
+     288:	5b 01       	movw	r10, r22
+     28a:	6c 01       	movw	r12, r24
+     28c:	20 e0       	ldi	r18, 0x00	; 0
+     28e:	30 e0       	ldi	r19, 0x00	; 0
+     290:	4a e7       	ldi	r20, 0x7A	; 122
+     292:	54 e4       	ldi	r21, 0x44	; 68
+     294:	24 d5       	rcall	.+2632   	; 0xcde <__divsf3>
+     296:	9b 01       	movw	r18, r22
+     298:	ac 01       	movw	r20, r24
+     29a:	c8 01       	movw	r24, r16
+     29c:	b7 01       	movw	r22, r14
+     29e:	46 d6       	rcall	.+3212   	; 0xf2c <__gesf2>
+     2a0:	18 16       	cp	r1, r24
+     2a2:	3c f5       	brge	.+78     	; 0x2f2 <main+0x144>
+			{
+				currentCycleMS -= ((double)DutyCyclePeriod) / 1000.0;
+     2a4:	c6 01       	movw	r24, r12
+     2a6:	b5 01       	movw	r22, r10
+     2a8:	20 e0       	ldi	r18, 0x00	; 0
+     2aa:	30 e0       	ldi	r19, 0x00	; 0
+     2ac:	4a e7       	ldi	r20, 0x7A	; 122
+     2ae:	54 ec       	ldi	r21, 0xC4	; 196
+     2b0:	16 d5       	rcall	.+2604   	; 0xcde <__divsf3>
+     2b2:	9b 01       	movw	r18, r22
+     2b4:	ac 01       	movw	r20, r24
+     2b6:	c8 01       	movw	r24, r16
+     2b8:	b7 01       	movw	r22, r14
+     2ba:	ad d4       	rcall	.+2394   	; 0xc16 <__addsf3>
+     2bc:	9b 01       	movw	r18, r22
+     2be:	ac 01       	movw	r20, r24
+     2c0:	60 93 ca 00 	sts	0x00CA, r22
+     2c4:	70 93 cb 00 	sts	0x00CB, r23
+     2c8:	80 93 cc 00 	sts	0x00CC, r24
+     2cc:	90 93 cd 00 	sts	0x00CD, r25
+				lastOriginalMS = SystemMS - currentCycleMS;
+     2d0:	60 91 c6 00 	lds	r22, 0x00C6
+     2d4:	70 91 c7 00 	lds	r23, 0x00C7
+     2d8:	80 91 c8 00 	lds	r24, 0x00C8
+     2dc:	90 91 c9 00 	lds	r25, 0x00C9
+     2e0:	99 d4       	rcall	.+2354   	; 0xc14 <__subsf3>
+     2e2:	60 93 ce 00 	sts	0x00CE, r22
+     2e6:	70 93 cf 00 	sts	0x00CF, r23
+     2ea:	80 93 d0 00 	sts	0x00D0, r24
+     2ee:	90 93 d1 00 	sts	0x00D1, r25
+			}
+			UpdateLights(currentCycleMS);
+     2f2:	60 91 ca 00 	lds	r22, 0x00CA
+     2f6:	70 91 cb 00 	lds	r23, 0x00CB
+     2fa:	80 91 cc 00 	lds	r24, 0x00CC
+     2fe:	90 91 cd 00 	lds	r25, 0x00CD
+     302:	f7 de       	rcall	.-530    	; 0xf2 <UpdateLights>
+     304:	83 cf       	rjmp	.-250    	; 0x20c <main+0x5e>
+
+00000306 <InitializeManager>:
+
+void InitializeManager(void)
+{
+	unsigned char floodlights = (1 << CAMFLOODLIGHTS) | (1 << LANDFLOODLIGHTS);
+	//Enable the floodlights for output
+	FLOODLIGHTREG |= floodlights;
+     306:	21 e3       	ldi	r18, 0x31	; 49
+     308:	30 e0       	ldi	r19, 0x00	; 0
+     30a:	f9 01       	movw	r30, r18
+     30c:	80 81       	ld	r24, Z
+     30e:	83 60       	ori	r24, 0x03	; 3
+     310:	80 83       	st	Z, r24
+	//Turn off all floodlights
+	FLOODLIGHTPORT &= ~floodlights;
+     312:	a2 e3       	ldi	r26, 0x32	; 50
+     314:	b0 e0       	ldi	r27, 0x00	; 0
+     316:	8c 91       	ld	r24, X
+     318:	8c 7f       	andi	r24, 0xFC	; 252
+     31a:	8c 93       	st	X, r24
+	
+	unsigned char lasers = (1 << CAMORIENTLASER) | (1 << CAMLEVELLASER) | (1 << SCANLASER);
+	//Enable the lasers for output
+	LASERREG |= lasers;
+     31c:	80 81       	ld	r24, Z
+     31e:	8c 61       	ori	r24, 0x1C	; 28
+     320:	80 83       	st	Z, r24
+	//Turn off all lasers
+	LASERPORT &= ~lasers;
+     322:	8c 91       	ld	r24, X
+     324:	83 7e       	andi	r24, 0xE3	; 227
+     326:	8c 93       	st	X, r24
+	
+	unsigned char dataline = (1 << SR_DATA);
+	unsigned char selectlines = (1 << SRS_EMPHASISR) | (1 << SRS_EMPHASISG) | (1 << SRS_EMPHASISB) | (1 << SRS_SUPPORTR) | (1 << SRS_SUPPORTG) | (1 << SRS_SUPPORTB);
+	//Enable the shift registers for output
+	SHIFTREGDATAREG |= dataline;
+     328:	e7 e3       	ldi	r30, 0x37	; 55
+     32a:	f0 e0       	ldi	r31, 0x00	; 0
+     32c:	80 81       	ld	r24, Z
+     32e:	81 60       	ori	r24, 0x01	; 1
+     330:	80 83       	st	Z, r24
+	SHIFTREGSELECTREG |= selectlines;
+     332:	e4 e3       	ldi	r30, 0x34	; 52
+     334:	f0 e0       	ldi	r31, 0x00	; 0
+     336:	80 81       	ld	r24, Z
+     338:	8f 63       	ori	r24, 0x3F	; 63
+     33a:	80 83       	st	Z, r24
+	//Turn off shift register lines
+	SHIFTREGDATAPORT &= ~dataline;
+     33c:	e8 e3       	ldi	r30, 0x38	; 56
+     33e:	f0 e0       	ldi	r31, 0x00	; 0
+     340:	80 81       	ld	r24, Z
+     342:	8e 7f       	andi	r24, 0xFE	; 254
+     344:	80 83       	st	Z, r24
+	SHIFTREGSELECTPORT &= ~selectlines;
+     346:	e5 e3       	ldi	r30, 0x35	; 53
+     348:	f0 e0       	ldi	r31, 0x00	; 0
+     34a:	80 81       	ld	r24, Z
+     34c:	80 7c       	andi	r24, 0xC0	; 192
+     34e:	80 83       	st	Z, r24
+	
+	unsigned char statusnotify = (1 << STATUSNOTIFYR) | (1 << STATUSNOTIFYG) | (1 << STATUSNOTIFYB);
+	//Enable the status notify LED for output
+	STATUSNOTIFYREG |= statusnotify;
+     350:	f9 01       	movw	r30, r18
+     352:	80 81       	ld	r24, Z
+     354:	80 6e       	ori	r24, 0xE0	; 224
+     356:	80 83       	st	Z, r24
+	//Turn off status notify
+	STATUSNOTIFYPORT &= ~statusnotify;
+     358:	8c 91       	ld	r24, X
+     35a:	8f 71       	andi	r24, 0x1F	; 31
+     35c:	8c 93       	st	X, r24
+	
+	//Set initial duty cycle period
+	DutyCyclePeriod = (unsigned int)(1.0f / ((float)DEFAULTDUTYFREQUENCY) * 1000.0f);
+     35e:	80 e1       	ldi	r24, 0x10	; 16
+     360:	90 e0       	ldi	r25, 0x00	; 0
+     362:	90 93 d3 00 	sts	0x00D3, r25
+     366:	80 93 d2 00 	sts	0x00D2, r24
+}
+     36a:	08 95       	ret
+
+0000036c <ShiftRegCommitData>:
+	StatusGDutyCycle = ConvertAlphaToDuty(g);
+	StatusBDutyCycle = ConvertAlphaToDuty(b);
+}
+
+void ShiftRegCommitData(unsigned char alpha, unsigned char select)
+{
+     36c:	1f 93       	push	r17
+     36e:	cf 93       	push	r28
+     370:	df 93       	push	r29
+	SHIFTREGSELECTPORT |= (1 << select);
+     372:	e5 e3       	ldi	r30, 0x35	; 53
+     374:	f0 e0       	ldi	r31, 0x00	; 0
+     376:	90 81       	ld	r25, Z
+     378:	21 e0       	ldi	r18, 0x01	; 1
+     37a:	30 e0       	ldi	r19, 0x00	; 0
+     37c:	02 c0       	rjmp	.+4      	; 0x382 <ShiftRegCommitData+0x16>
+     37e:	22 0f       	add	r18, r18
+     380:	33 1f       	adc	r19, r19
+     382:	6a 95       	dec	r22
+     384:	e2 f7       	brpl	.-8      	; 0x37e <ShiftRegCommitData+0x12>
+     386:	12 2f       	mov	r17, r18
+     388:	92 2b       	or	r25, r18
+     38a:	90 83       	st	Z, r25
+     38c:	40 e0       	ldi	r20, 0x00	; 0
+     38e:	50 e0       	ldi	r21, 0x00	; 0
+	for(int i = 0; i < 8; i++)
+	{
+		if((alpha & (1 << i)) == (1 << i))
+     390:	c1 e0       	ldi	r28, 0x01	; 1
+     392:	d0 e0       	ldi	r29, 0x00	; 0
+     394:	68 2f       	mov	r22, r24
+     396:	70 e0       	ldi	r23, 0x00	; 0
+		{
+			SHIFTREGDATAPORT |= (1 << SR_DATA);
+		}
+		else
+		{
+			SHIFTREGDATAPORT &= ~(1 << SR_DATA);
+     398:	e8 e3       	ldi	r30, 0x38	; 56
+     39a:	f0 e0       	ldi	r31, 0x00	; 0
+    milliseconds can be achieved.
+ */
+void
+_delay_loop_2(uint16_t __count)
+{
+	__asm__ volatile (
+     39c:	a0 e2       	ldi	r26, 0x20	; 32
+     39e:	be e4       	ldi	r27, 0x4E	; 78
+void ShiftRegCommitData(unsigned char alpha, unsigned char select)
+{
+	SHIFTREGSELECTPORT |= (1 << select);
+	for(int i = 0; i < 8; i++)
+	{
+		if((alpha & (1 << i)) == (1 << i))
+     3a0:	9e 01       	movw	r18, r28
+     3a2:	04 2e       	mov	r0, r20
+     3a4:	02 c0       	rjmp	.+4      	; 0x3aa <ShiftRegCommitData+0x3e>
+     3a6:	22 0f       	add	r18, r18
+     3a8:	33 1f       	adc	r19, r19
+     3aa:	0a 94       	dec	r0
+     3ac:	e2 f7       	brpl	.-8      	; 0x3a6 <ShiftRegCommitData+0x3a>
+     3ae:	c9 01       	movw	r24, r18
+     3b0:	86 23       	and	r24, r22
+     3b2:	97 23       	and	r25, r23
+     3b4:	28 17       	cp	r18, r24
+     3b6:	39 07       	cpc	r19, r25
+     3b8:	21 f4       	brne	.+8      	; 0x3c2 <ShiftRegCommitData+0x56>
+		{
+			SHIFTREGDATAPORT |= (1 << SR_DATA);
+     3ba:	80 81       	ld	r24, Z
+     3bc:	81 60       	ori	r24, 0x01	; 1
+     3be:	80 83       	st	Z, r24
+     3c0:	03 c0       	rjmp	.+6      	; 0x3c8 <ShiftRegCommitData+0x5c>
+		}
+		else
+		{
+			SHIFTREGDATAPORT &= ~(1 << SR_DATA);
+     3c2:	80 81       	ld	r24, Z
+     3c4:	8e 7f       	andi	r24, 0xFE	; 254
+     3c6:	80 83       	st	Z, r24
+     3c8:	cd 01       	movw	r24, r26
+     3ca:	01 97       	sbiw	r24, 0x01	; 1
+     3cc:	f1 f7       	brne	.-4      	; 0x3ca <ShiftRegCommitData+0x5e>
+}
+
+void ShiftRegCommitData(unsigned char alpha, unsigned char select)
+{
+	SHIFTREGSELECTPORT |= (1 << select);
+	for(int i = 0; i < 8; i++)
+     3ce:	4f 5f       	subi	r20, 0xFF	; 255
+     3d0:	5f 4f       	sbci	r21, 0xFF	; 255
+     3d2:	48 30       	cpi	r20, 0x08	; 8
+     3d4:	51 05       	cpc	r21, r1
+     3d6:	21 f7       	brne	.-56     	; 0x3a0 <ShiftRegCommitData+0x34>
+		{
+			SHIFTREGDATAPORT &= ~(1 << SR_DATA);
+		}
+		_delay_ms(SHIFTREGSETDELAY);
+	}
+	SHIFTREGSELECTPORT &= ~(1 << select);
+     3d8:	e5 e3       	ldi	r30, 0x35	; 53
+     3da:	f0 e0       	ldi	r31, 0x00	; 0
+     3dc:	90 81       	ld	r25, Z
+     3de:	81 2f       	mov	r24, r17
+     3e0:	80 95       	com	r24
+     3e2:	89 23       	and	r24, r25
+     3e4:	80 83       	st	Z, r24
+}
+     3e6:	df 91       	pop	r29
+     3e8:	cf 91       	pop	r28
+     3ea:	1f 91       	pop	r17
+     3ec:	08 95       	ret
+
+000003ee <ChangeSupportStrips>:
+	_delay_ms(SHIFTREGSETDELAY);
+	ShiftRegCommitData(b, SRS_EMPHASISB);
+	_delay_ms(SHIFTREGSETDELAY);
+}
+void ChangeSupportStrips(unsigned char r, unsigned char g, unsigned char b)
+{
+     3ee:	ef 92       	push	r14
+     3f0:	ff 92       	push	r15
+     3f2:	0f 93       	push	r16
+     3f4:	1f 93       	push	r17
+     3f6:	f6 2e       	mov	r15, r22
+     3f8:	e4 2e       	mov	r14, r20
+	SupportR = r;
+     3fa:	80 93 e1 00 	sts	0x00E1, r24
+	SupportG = g;
+     3fe:	60 93 e2 00 	sts	0x00E2, r22
+	SupportB = b;
+     402:	40 93 e3 00 	sts	0x00E3, r20
+	
+	ShiftRegCommitData(r, SRS_SUPPORTR);
+     406:	63 e0       	ldi	r22, 0x03	; 3
+     408:	b1 df       	rcall	.-158    	; 0x36c <ShiftRegCommitData>
+     40a:	00 e2       	ldi	r16, 0x20	; 32
+     40c:	1e e4       	ldi	r17, 0x4E	; 78
+     40e:	c8 01       	movw	r24, r16
+     410:	01 97       	sbiw	r24, 0x01	; 1
+     412:	f1 f7       	brne	.-4      	; 0x410 <ChangeSupportStrips+0x22>
+	_delay_ms(SHIFTREGSETDELAY);
+	ShiftRegCommitData(g, SRS_SUPPORTG);
+     414:	8f 2d       	mov	r24, r15
+     416:	64 e0       	ldi	r22, 0x04	; 4
+     418:	a9 df       	rcall	.-174    	; 0x36c <ShiftRegCommitData>
+     41a:	c8 01       	movw	r24, r16
+     41c:	01 97       	sbiw	r24, 0x01	; 1
+     41e:	f1 f7       	brne	.-4      	; 0x41c <ChangeSupportStrips+0x2e>
+	_delay_ms(SHIFTREGSETDELAY);
+	ShiftRegCommitData(b, SRS_SUPPORTB);
+     420:	8e 2d       	mov	r24, r14
+     422:	65 e0       	ldi	r22, 0x05	; 5
+     424:	a3 df       	rcall	.-186    	; 0x36c <ShiftRegCommitData>
+     426:	c8 01       	movw	r24, r16
+     428:	01 97       	sbiw	r24, 0x01	; 1
+     42a:	f1 f7       	brne	.-4      	; 0x428 <ChangeSupportStrips+0x3a>
+	_delay_ms(SHIFTREGSETDELAY);
+}
+     42c:	1f 91       	pop	r17
+     42e:	0f 91       	pop	r16
+     430:	ff 90       	pop	r15
+     432:	ef 90       	pop	r14
+     434:	08 95       	ret
+
+00000436 <ChangeEmphasisStrips>:
+	ScanLaser = alpha;
+	ScanLaserDutyCycle = ConvertAlphaToDuty(alpha);
+}
+
+void ChangeEmphasisStrips(unsigned char r, unsigned char g, unsigned char b)
+{
+     436:	ef 92       	push	r14
+     438:	ff 92       	push	r15
+     43a:	0f 93       	push	r16
+     43c:	1f 93       	push	r17
+     43e:	f6 2e       	mov	r15, r22
+     440:	e4 2e       	mov	r14, r20
+	EmphasisR = r;
+     442:	80 93 de 00 	sts	0x00DE, r24
+	EmphasisG = g;
+     446:	60 93 df 00 	sts	0x00DF, r22
+	EmphasisB = b;
+     44a:	40 93 e0 00 	sts	0x00E0, r20
+	
+	ShiftRegCommitData(r, SRS_EMPHASISR);
+     44e:	60 e0       	ldi	r22, 0x00	; 0
+     450:	8d df       	rcall	.-230    	; 0x36c <ShiftRegCommitData>
+     452:	00 e2       	ldi	r16, 0x20	; 32
+     454:	1e e4       	ldi	r17, 0x4E	; 78
+     456:	c8 01       	movw	r24, r16
+     458:	01 97       	sbiw	r24, 0x01	; 1
+     45a:	f1 f7       	brne	.-4      	; 0x458 <ChangeEmphasisStrips+0x22>
+	_delay_ms(SHIFTREGSETDELAY);
+	ShiftRegCommitData(g, SRS_EMPHASISG);
+     45c:	8f 2d       	mov	r24, r15
+     45e:	61 e0       	ldi	r22, 0x01	; 1
+     460:	85 df       	rcall	.-246    	; 0x36c <ShiftRegCommitData>
+     462:	c8 01       	movw	r24, r16
+     464:	01 97       	sbiw	r24, 0x01	; 1
+     466:	f1 f7       	brne	.-4      	; 0x464 <__stack+0x5>
+	_delay_ms(SHIFTREGSETDELAY);
+	ShiftRegCommitData(b, SRS_EMPHASISB);
+     468:	8e 2d       	mov	r24, r14
+     46a:	62 e0       	ldi	r22, 0x02	; 2
+     46c:	7f df       	rcall	.-258    	; 0x36c <ShiftRegCommitData>
+     46e:	c8 01       	movw	r24, r16
+     470:	01 97       	sbiw	r24, 0x01	; 1
+     472:	f1 f7       	brne	.-4      	; 0x470 <__stack+0x11>
+	_delay_ms(SHIFTREGSETDELAY);
+}
+     474:	1f 91       	pop	r17
+     476:	0f 91       	pop	r16
+     478:	ff 90       	pop	r15
+     47a:	ef 90       	pop	r14
+     47c:	08 95       	ret
+
+0000047e <ConvertAlphaToDuty>:
+
+/*
+ * Converts a brightness ratio to a duty cycle based on the current duty cycle period.
+ */
+unsigned char ConvertAlphaToDuty(unsigned char alpha)
+{
+     47e:	ef 92       	push	r14
+     480:	ff 92       	push	r15
+     482:	0f 93       	push	r16
+     484:	1f 93       	push	r17
+     486:	90 e0       	ldi	r25, 0x00	; 0
+     488:	a0 e0       	ldi	r26, 0x00	; 0
+     48a:	b0 e0       	ldi	r27, 0x00	; 0
+     48c:	bc 01       	movw	r22, r24
+     48e:	cd 01       	movw	r24, r26
+     490:	bf d4       	rcall	.+2430   	; 0xe10 <__floatunsisf>
+     492:	20 e0       	ldi	r18, 0x00	; 0
+     494:	30 e0       	ldi	r19, 0x00	; 0
+     496:	4f e7       	ldi	r20, 0x7F	; 127
+     498:	53 e4       	ldi	r21, 0x43	; 67
+     49a:	21 d4       	rcall	.+2114   	; 0xcde <__divsf3>
+     49c:	7b 01       	movw	r14, r22
+     49e:	8c 01       	movw	r16, r24
+     4a0:	60 91 d2 00 	lds	r22, 0x00D2
+     4a4:	70 91 d3 00 	lds	r23, 0x00D3
+     4a8:	80 e0       	ldi	r24, 0x00	; 0
+     4aa:	90 e0       	ldi	r25, 0x00	; 0
+     4ac:	b1 d4       	rcall	.+2402   	; 0xe10 <__floatunsisf>
+     4ae:	9b 01       	movw	r18, r22
+     4b0:	ac 01       	movw	r20, r24
+     4b2:	c8 01       	movw	r24, r16
+     4b4:	b7 01       	movw	r22, r14
+     4b6:	3e d5       	rcall	.+2684   	; 0xf34 <__mulsf3>
+     4b8:	7f d4       	rcall	.+2302   	; 0xdb8 <__fixunssfsi>
+     4ba:	dc 01       	movw	r26, r24
+     4bc:	cb 01       	movw	r24, r22
+	return (unsigned char)(((float)alpha / 255.0f) * (float)DutyCyclePeriod);
+     4be:	1f 91       	pop	r17
+     4c0:	0f 91       	pop	r16
+     4c2:	ff 90       	pop	r15
+     4c4:	ef 90       	pop	r14
+     4c6:	08 95       	ret
+
+000004c8 <ChangeStatusNotify>:
+	ShiftRegCommitData(b, SRS_SUPPORTB);
+	_delay_ms(SHIFTREGSETDELAY);
+}
+
+void ChangeStatusNotify(unsigned char r, unsigned char g, unsigned char b)
+{
+     4c8:	0f 93       	push	r16
+     4ca:	1f 93       	push	r17
+     4cc:	16 2f       	mov	r17, r22
+     4ce:	04 2f       	mov	r16, r20
+	StatusR = r;
+     4d0:	80 93 e4 00 	sts	0x00E4, r24
+	StatusG = g;
+     4d4:	60 93 e5 00 	sts	0x00E5, r22
+	StatusB = b;
+     4d8:	40 93 e6 00 	sts	0x00E6, r20
+	
+	StatusRDutyCycle = ConvertAlphaToDuty(r);
+     4dc:	d0 df       	rcall	.-96     	; 0x47e <ConvertAlphaToDuty>
+     4de:	80 93 e7 00 	sts	0x00E7, r24
+	StatusGDutyCycle = ConvertAlphaToDuty(g);
+     4e2:	81 2f       	mov	r24, r17
+     4e4:	cc df       	rcall	.-104    	; 0x47e <ConvertAlphaToDuty>
+     4e6:	80 93 e8 00 	sts	0x00E8, r24
+	StatusBDutyCycle = ConvertAlphaToDuty(b);
+     4ea:	80 2f       	mov	r24, r16
+     4ec:	c8 df       	rcall	.-112    	; 0x47e <ConvertAlphaToDuty>
+     4ee:	80 93 e9 00 	sts	0x00E9, r24
+}
+     4f2:	1f 91       	pop	r17
+     4f4:	0f 91       	pop	r16
+     4f6:	08 95       	ret
+
+000004f8 <ToggleScanLaser>:
+	CameraLevelLaser = alpha;
+	CameraLevelLaserDutyCycle = ConvertAlphaToDuty(alpha);
+}
+void ToggleScanLaser(unsigned char alpha)
+{
+	ScanLaser = alpha;
+     4f8:	80 93 da 00 	sts	0x00DA, r24
+	ScanLaserDutyCycle = ConvertAlphaToDuty(alpha);
+     4fc:	c0 df       	rcall	.-128    	; 0x47e <ConvertAlphaToDuty>
+     4fe:	80 93 dd 00 	sts	0x00DD, r24
+}
+     502:	08 95       	ret
+
+00000504 <ToggleCameraLevelLaser>:
+	CameraOrientLaser = alpha;
+	CameraOrientLaserDutyCycle = ConvertAlphaToDuty(alpha);
+}
+void ToggleCameraLevelLaser(unsigned char alpha)
+{
+	CameraLevelLaser = alpha;
+     504:	80 93 d9 00 	sts	0x00D9, r24
+	CameraLevelLaserDutyCycle = ConvertAlphaToDuty(alpha);
+     508:	ba df       	rcall	.-140    	; 0x47e <ConvertAlphaToDuty>
+     50a:	80 93 dc 00 	sts	0x00DC, r24
+}
+     50e:	08 95       	ret
+
+00000510 <ToggleCameraOrientLaser>:
+	LandingFloodlightDutyCycle = ConvertAlphaToDuty(alpha);
+}
+
+void ToggleCameraOrientLaser(unsigned char alpha)
+{
+	CameraOrientLaser = alpha;
+     510:	80 93 d8 00 	sts	0x00D8, r24
+	CameraOrientLaserDutyCycle = ConvertAlphaToDuty(alpha);
+     514:	b4 df       	rcall	.-152    	; 0x47e <ConvertAlphaToDuty>
+     516:	80 93 db 00 	sts	0x00DB, r24
+}
+     51a:	08 95       	ret
+
+0000051c <ToggleLandingFloodlights>:
+	CameraFloodlight = alpha;
+	CameraFloodlightDutyCycle = ConvertAlphaToDuty(alpha);
+}
+void ToggleLandingFloodlights(unsigned char alpha)
+{
+	LandingFloodlight = alpha;
+     51c:	80 93 d5 00 	sts	0x00D5, r24
+	LandingFloodlightDutyCycle = ConvertAlphaToDuty(alpha);
+     520:	ae df       	rcall	.-164    	; 0x47e <ConvertAlphaToDuty>
+     522:	80 93 d7 00 	sts	0x00D7, r24
+}
+     526:	08 95       	ret
+
+00000528 <ToggleCameraFloodlight>:
+	DutyCyclePeriod = (unsigned int)(1.0f / ((float)DEFAULTDUTYFREQUENCY) * 1000.0f);
+}
+
+void ToggleCameraFloodlight(unsigned char alpha)
+{
+	CameraFloodlight = alpha;
+     528:	80 93 d4 00 	sts	0x00D4, r24
+	CameraFloodlightDutyCycle = ConvertAlphaToDuty(alpha);
+     52c:	a8 df       	rcall	.-176    	; 0x47e <ConvertAlphaToDuty>
+     52e:	80 93 d6 00 	sts	0x00D6, r24
+}
+     532:	08 95       	ret
+
+00000534 <Altered_Presets>:
+	 }
+ }
+ void Altered_Presets(uint8_t id, unsigned char value)
+ {
+	//TODO: implement presets
+ }
+     534:	08 95       	ret
+
+00000536 <SetTimerResolution>:
+
+
+
+
+void SetTimerResolution(enum TimerResolutions res)
+{
+     536:	98 2f       	mov	r25, r24
+	if(TimerResolution == res)
+     538:	80 91 64 00 	lds	r24, 0x0064
+     53c:	89 17       	cp	r24, r25
+     53e:	09 f4       	brne	.+2      	; 0x542 <SetTimerResolution+0xc>
+     540:	60 c0       	rjmp	.+192    	; 0x602 <SetTimerResolution+0xcc>
+	{
+		return;
+	}
+	TimerResolution = res;
+     542:	90 93 64 00 	sts	0x0064, r25
+	
+	if(res == PowerSaving)
+     546:	99 23       	and	r25, r25
+     548:	a9 f4       	brne	.+42     	; 0x574 <SetTimerResolution+0x3e>
+	{
+		//F_CPU / 1024
+		//TCCR0 => 101
+		TCCR0 &= ~(1 << CS01);
+     54a:	e3 e5       	ldi	r30, 0x53	; 83
+     54c:	f0 e0       	ldi	r31, 0x00	; 0
+     54e:	80 81       	ld	r24, Z
+     550:	8d 7f       	andi	r24, 0xFD	; 253
+     552:	80 83       	st	Z, r24
+		TCCR0 |= (1 << CS02) | (1 << CS00);
+     554:	80 81       	ld	r24, Z
+     556:	85 60       	ori	r24, 0x05	; 5
+     558:	80 83       	st	Z, r24
+		TimerOverflowIncrement = RES_INC_POWERSAVING;
+     55a:	8d eb       	ldi	r24, 0xBD	; 189
+     55c:	97 e3       	ldi	r25, 0x37	; 55
+     55e:	a6 e8       	ldi	r26, 0x86	; 134
+     560:	bc e3       	ldi	r27, 0x3C	; 60
+     562:	80 93 ed 00 	sts	0x00ED, r24
+     566:	90 93 ee 00 	sts	0x00EE, r25
+     56a:	a0 93 ef 00 	sts	0x00EF, r26
+     56e:	b0 93 f0 00 	sts	0x00F0, r27
+     572:	08 95       	ret
+	}
+	else if(res == Low)
+     574:	91 30       	cpi	r25, 0x01	; 1
+     576:	a9 f4       	brne	.+42     	; 0x5a2 <SetTimerResolution+0x6c>
+	{
+		//F_CPU / 256
+		//TCCR0 => 100
+		TCCR0 &= ~((1 << CS01) | (1 << CS00));
+     578:	e3 e5       	ldi	r30, 0x53	; 83
+     57a:	f0 e0       	ldi	r31, 0x00	; 0
+     57c:	80 81       	ld	r24, Z
+     57e:	8c 7f       	andi	r24, 0xFC	; 252
+     580:	80 83       	st	Z, r24
+		TCCR0 |= (1 << CS02);
+     582:	80 81       	ld	r24, Z
+     584:	84 60       	ori	r24, 0x04	; 4
+     586:	80 83       	st	Z, r24
+		TimerOverflowIncrement = RES_INC_LOW;
+     588:	8d eb       	ldi	r24, 0xBD	; 189
+     58a:	97 e3       	ldi	r25, 0x37	; 55
+     58c:	a6 e8       	ldi	r26, 0x86	; 134
+     58e:	bb e3       	ldi	r27, 0x3B	; 59
+     590:	80 93 ed 00 	sts	0x00ED, r24
+     594:	90 93 ee 00 	sts	0x00EE, r25
+     598:	a0 93 ef 00 	sts	0x00EF, r26
+     59c:	b0 93 f0 00 	sts	0x00F0, r27
+     5a0:	08 95       	ret
+	}
+	else if(res == Medium)
+     5a2:	92 30       	cpi	r25, 0x02	; 2
+     5a4:	a9 f4       	brne	.+42     	; 0x5d0 <SetTimerResolution+0x9a>
+	{
+		//F_CPU / 64
+		//TCCR0 => 011
+		TCCR0 &= ~(1 << CS02);
+     5a6:	e3 e5       	ldi	r30, 0x53	; 83
+     5a8:	f0 e0       	ldi	r31, 0x00	; 0
+     5aa:	80 81       	ld	r24, Z
+     5ac:	8b 7f       	andi	r24, 0xFB	; 251
+     5ae:	80 83       	st	Z, r24
+		TCCR0 |= (1 << CS01) | (1 << CS00);
+     5b0:	80 81       	ld	r24, Z
+     5b2:	83 60       	ori	r24, 0x03	; 3
+     5b4:	80 83       	st	Z, r24
+		TimerOverflowIncrement = RES_INC_MEDIUM;
+     5b6:	8d eb       	ldi	r24, 0xBD	; 189
+     5b8:	97 e3       	ldi	r25, 0x37	; 55
+     5ba:	a6 e8       	ldi	r26, 0x86	; 134
+     5bc:	ba e3       	ldi	r27, 0x3A	; 58
+     5be:	80 93 ed 00 	sts	0x00ED, r24
+     5c2:	90 93 ee 00 	sts	0x00EE, r25
+     5c6:	a0 93 ef 00 	sts	0x00EF, r26
+     5ca:	b0 93 f0 00 	sts	0x00F0, r27
+     5ce:	08 95       	ret
+	}
+	else if(res == High)
+     5d0:	93 30       	cpi	r25, 0x03	; 3
+     5d2:	a9 f4       	brne	.+42     	; 0x5fe <SetTimerResolution+0xc8>
+	{
+		//F_CPU / 8
+		//TCCR0 => 010
+		TCCR0 &= ~((1 << CS02) | (1 << CS00));
+     5d4:	e3 e5       	ldi	r30, 0x53	; 83
+     5d6:	f0 e0       	ldi	r31, 0x00	; 0
+     5d8:	80 81       	ld	r24, Z
+     5da:	8a 7f       	andi	r24, 0xFA	; 250
+     5dc:	80 83       	st	Z, r24
+		TCCR0 |= (1 << CS01);
+     5de:	80 81       	ld	r24, Z
+     5e0:	82 60       	ori	r24, 0x02	; 2
+     5e2:	80 83       	st	Z, r24
+		TimerOverflowIncrement = RES_INC_HIGH;
+     5e4:	8d eb       	ldi	r24, 0xBD	; 189
+     5e6:	97 e3       	ldi	r25, 0x37	; 55
+     5e8:	a6 e0       	ldi	r26, 0x06	; 6
+     5ea:	b9 e3       	ldi	r27, 0x39	; 57
+     5ec:	80 93 ed 00 	sts	0x00ED, r24
+     5f0:	90 93 ee 00 	sts	0x00EE, r25
+     5f4:	a0 93 ef 00 	sts	0x00EF, r26
+     5f8:	b0 93 f0 00 	sts	0x00F0, r27
+     5fc:	08 95       	ret
+	}
+	else
+	{
+		SetTimerResolution(DefaultTimerResolution);
+     5fe:	81 e0       	ldi	r24, 0x01	; 1
+     600:	9a df       	rcall	.-204    	; 0x536 <SetTimerResolution>
+     602:	08 95       	ret
+
+00000604 <Altered_StatusNotify>:
+	}
+ }
+
+
+ void Altered_StatusNotify(uint8_t id, unsigned char value)
+ {
+     604:	46 2f       	mov	r20, r22
+	if(id == REG_STATNOTIFYR)
+     606:	8e 30       	cpi	r24, 0x0E	; 14
+     608:	39 f4       	brne	.+14     	; 0x618 <Altered_StatusNotify+0x14>
+	{
+		ChangeStatusNotify(value, StatusG, StatusB);
+     60a:	86 2f       	mov	r24, r22
+     60c:	60 91 e5 00 	lds	r22, 0x00E5
+     610:	40 91 e6 00 	lds	r20, 0x00E6
+     614:	59 df       	rcall	.-334    	; 0x4c8 <ChangeStatusNotify>
+     616:	08 95       	ret
+	}
+	else if(id == REG_STATNOTIFYG)
+     618:	8f 30       	cpi	r24, 0x0F	; 15
+     61a:	31 f4       	brne	.+12     	; 0x628 <Altered_StatusNotify+0x24>
+	{
+		ChangeStatusNotify(StatusR, value, StatusB);
+     61c:	80 91 e4 00 	lds	r24, 0x00E4
+     620:	40 91 e6 00 	lds	r20, 0x00E6
+     624:	51 df       	rcall	.-350    	; 0x4c8 <ChangeStatusNotify>
+     626:	08 95       	ret
+	}
+	else if(id == REG_STATNOTIFYB)
+     628:	80 31       	cpi	r24, 0x10	; 16
+     62a:	29 f4       	brne	.+10     	; 0x636 <Altered_StatusNotify+0x32>
+	{
+		ChangeStatusNotify(StatusR, StatusG, value);
+     62c:	80 91 e4 00 	lds	r24, 0x00E4
+     630:	60 91 e5 00 	lds	r22, 0x00E5
+     634:	49 df       	rcall	.-366    	; 0x4c8 <ChangeStatusNotify>
+     636:	08 95       	ret
+
+00000638 <Altered_Laser>:
+		ToggleLandingFloodlights(value);
+	}
+ }
+ void Altered_Laser(uint8_t id, unsigned char value)
+ {
+	if(id == REG_CAMPTLSRALPHA)
+     638:	8b 30       	cpi	r24, 0x0B	; 11
+     63a:	19 f4       	brne	.+6      	; 0x642 <Altered_Laser+0xa>
+	{
+		ToggleCameraOrientLaser(value);
+     63c:	86 2f       	mov	r24, r22
+     63e:	68 df       	rcall	.-304    	; 0x510 <ToggleCameraOrientLaser>
+     640:	08 95       	ret
+	}
+	else if(id == REG_CAMLVLLSRALPHA)
+     642:	8c 30       	cpi	r24, 0x0C	; 12
+     644:	19 f4       	brne	.+6      	; 0x64c <Altered_Laser+0x14>
+	{
+		ToggleCameraLevelLaser(value);
+     646:	86 2f       	mov	r24, r22
+     648:	5d df       	rcall	.-326    	; 0x504 <ToggleCameraLevelLaser>
+     64a:	08 95       	ret
+	}
+	else if(id == REG_SCANLSRALPHA)
+     64c:	8d 30       	cpi	r24, 0x0D	; 13
+     64e:	11 f4       	brne	.+4      	; 0x654 <Altered_Laser+0x1c>
+	{
+		ToggleScanLaser(value);
+     650:	86 2f       	mov	r24, r22
+     652:	52 df       	rcall	.-348    	; 0x4f8 <ToggleScanLaser>
+     654:	08 95       	ret
+
+00000656 <Altered_Floodlights>:
+ }
+
+
+ void Altered_Floodlights(uint8_t id, unsigned char value)
+ {
+	if(id == REG_CAMFLDALPHA)
+     656:	89 30       	cpi	r24, 0x09	; 9
+     658:	19 f4       	brne	.+6      	; 0x660 <Altered_Floodlights+0xa>
+	{
+		ToggleCameraFloodlight(value);
+     65a:	86 2f       	mov	r24, r22
+     65c:	65 df       	rcall	.-310    	; 0x528 <ToggleCameraFloodlight>
+     65e:	08 95       	ret
+	}
+	else if(id == REG_LANDFLDALPHA)
+     660:	8a 30       	cpi	r24, 0x0A	; 10
+     662:	11 f4       	brne	.+4      	; 0x668 <Altered_Floodlights+0x12>
+	{
+		ToggleLandingFloodlights(value);
+     664:	86 2f       	mov	r24, r22
+     666:	5a df       	rcall	.-332    	; 0x51c <ToggleLandingFloodlights>
+     668:	08 95       	ret
+
+0000066a <Altered_Support>:
+	{
+		ChangeEmphasisStrips(EmphasisR, EmphasisG, value);
+	}
+ }
+ void Altered_Support(uint8_t id, unsigned char value)
+ {
+     66a:	46 2f       	mov	r20, r22
+	if(id == REG_SUPPORTR)
+     66c:	86 30       	cpi	r24, 0x06	; 6
+     66e:	39 f4       	brne	.+14     	; 0x67e <Altered_Support+0x14>
+	{
+		ChangeSupportStrips(value, SupportG, SupportB);
+     670:	86 2f       	mov	r24, r22
+     672:	60 91 e2 00 	lds	r22, 0x00E2
+     676:	40 91 e3 00 	lds	r20, 0x00E3
+     67a:	b9 de       	rcall	.-654    	; 0x3ee <ChangeSupportStrips>
+     67c:	08 95       	ret
+	}
+	else if(id == REG_SUPPORTG)
+     67e:	87 30       	cpi	r24, 0x07	; 7
+     680:	31 f4       	brne	.+12     	; 0x68e <Altered_Support+0x24>
+	{
+		ChangeSupportStrips(SupportR, value, SupportB);
+     682:	80 91 e1 00 	lds	r24, 0x00E1
+     686:	40 91 e3 00 	lds	r20, 0x00E3
+     68a:	b1 de       	rcall	.-670    	; 0x3ee <ChangeSupportStrips>
+     68c:	08 95       	ret
+	}
+	else if(id == REG_SUPPORTB)
+     68e:	88 30       	cpi	r24, 0x08	; 8
+     690:	29 f4       	brne	.+10     	; 0x69c <Altered_Support+0x32>
+	{
+		ChangeSupportStrips(SupportR, SupportG, value);
+     692:	80 91 e1 00 	lds	r24, 0x00E1
+     696:	60 91 e2 00 	lds	r22, 0x00E2
+     69a:	a9 de       	rcall	.-686    	; 0x3ee <ChangeSupportStrips>
+     69c:	08 95       	ret
+
+0000069e <Altered_Emphasis>:
+	//TODO: implement presets
+ }
+
+
+ void Altered_Emphasis(uint8_t id, unsigned char value)
+ {
+     69e:	46 2f       	mov	r20, r22
+	if(id == REG_EMPHASISR)
+     6a0:	83 30       	cpi	r24, 0x03	; 3
+     6a2:	39 f4       	brne	.+14     	; 0x6b2 <Altered_Emphasis+0x14>
+	{
+		ChangeEmphasisStrips(value, EmphasisG, EmphasisB);
+     6a4:	86 2f       	mov	r24, r22
+     6a6:	60 91 df 00 	lds	r22, 0x00DF
+     6aa:	40 91 e0 00 	lds	r20, 0x00E0
+     6ae:	c3 de       	rcall	.-634    	; 0x436 <ChangeEmphasisStrips>
+     6b0:	08 95       	ret
+	}
+	else if(id == REG_EMPHASISG)
+     6b2:	84 30       	cpi	r24, 0x04	; 4
+     6b4:	31 f4       	brne	.+12     	; 0x6c2 <Altered_Emphasis+0x24>
+	{
+		ChangeEmphasisStrips(EmphasisR, value, EmphasisB);
+     6b6:	80 91 de 00 	lds	r24, 0x00DE
+     6ba:	40 91 e0 00 	lds	r20, 0x00E0
+     6be:	bb de       	rcall	.-650    	; 0x436 <ChangeEmphasisStrips>
+     6c0:	08 95       	ret
+	}
+	else if(id == REG_EMPHASISB)
+     6c2:	85 30       	cpi	r24, 0x05	; 5
+     6c4:	29 f4       	brne	.+10     	; 0x6d0 <Altered_Emphasis+0x32>
+	{
+		ChangeEmphasisStrips(EmphasisR, EmphasisG, value);
+     6c6:	80 91 de 00 	lds	r24, 0x00DE
+     6ca:	60 91 df 00 	lds	r22, 0x00DF
+     6ce:	b3 de       	rcall	.-666    	; 0x436 <ChangeEmphasisStrips>
+     6d0:	08 95       	ret
+
+000006d2 <Altered_Control>:
+	{ REG_STATNOTIFYB, REG_DEFAULT_STATNOTIFYB, REG_DEFAULT_STATNOTIFYB, &Altered_StatusNotify }
+};
+ 
+ 
+ void Altered_Control(uint8_t id, unsigned char value)
+ {
+     6d2:	cf 92       	push	r12
+     6d4:	df 92       	push	r13
+     6d6:	ef 92       	push	r14
+     6d8:	ff 92       	push	r15
+     6da:	0f 93       	push	r16
+     6dc:	1f 93       	push	r17
+     6de:	c6 2e       	mov	r12, r22
+	 
+	 static bool utilitiessaved = false;
+	 static unsigned char floodlightsdc[2] = { 0x00, 0x00 };
+	 static unsigned char lasersdc[3] = { 0x00, 0x00, 0x00 };
+	 if(utilitiessaved == false)
+     6e0:	80 91 01 01 	lds	r24, 0x0101
+     6e4:	88 23       	and	r24, r24
+     6e6:	a9 f4       	brne	.+42     	; 0x712 <Altered_Control+0x40>
+	 {
+		 floodlightsdc[0] = CameraFloodlight;
+     6e8:	80 91 d4 00 	lds	r24, 0x00D4
+     6ec:	ef ef       	ldi	r30, 0xFF	; 255
+     6ee:	f0 e0       	ldi	r31, 0x00	; 0
+     6f0:	81 93       	st	Z+, r24
+		 floodlightsdc[1] = LandingFloodlight;
+     6f2:	80 91 d5 00 	lds	r24, 0x00D5
+     6f6:	80 83       	st	Z, r24
+		 lasersdc[0] = CameraOrientLaser;
+     6f8:	ac ef       	ldi	r26, 0xFC	; 252
+     6fa:	b0 e0       	ldi	r27, 0x00	; 0
+     6fc:	80 91 d8 00 	lds	r24, 0x00D8
+     700:	fd 01       	movw	r30, r26
+     702:	81 93       	st	Z+, r24
+		 lasersdc[1] = CameraLevelLaser;
+     704:	80 91 d9 00 	lds	r24, 0x00D9
+     708:	80 83       	st	Z, r24
+		 lasersdc[2] = ScanLaser;
+     70a:	80 91 da 00 	lds	r24, 0x00DA
+     70e:	12 96       	adiw	r26, 0x02	; 2
+     710:	8c 93       	st	X, r24
+	 }
+	 
+	 static bool stripssaved = false;
+	 static unsigned char emphasisrgb[3] = { 0x00, 0x00, 0x00 };
+	 static unsigned char supportrgb[3] = { 0x00, 0x00, 0x00 };
+	 if(stripssaved == false)
+     712:	80 91 fb 00 	lds	r24, 0x00FB
+     716:	88 23       	and	r24, r24
+     718:	d1 f4       	brne	.+52     	; 0x74e <Altered_Control+0x7c>
+	 {
+		 emphasisrgb[0] = EmphasisR;
+     71a:	a8 ef       	ldi	r26, 0xF8	; 248
+     71c:	b0 e0       	ldi	r27, 0x00	; 0
+     71e:	80 91 de 00 	lds	r24, 0x00DE
+     722:	fd 01       	movw	r30, r26
+     724:	81 93       	st	Z+, r24
+		 emphasisrgb[1] = EmphasisG;
+     726:	80 91 df 00 	lds	r24, 0x00DF
+     72a:	80 83       	st	Z, r24
+		 emphasisrgb[2] = EmphasisB;
+     72c:	80 91 e0 00 	lds	r24, 0x00E0
+     730:	12 96       	adiw	r26, 0x02	; 2
+     732:	8c 93       	st	X, r24
+		 supportrgb[0] = SupportR;
+     734:	a5 ef       	ldi	r26, 0xF5	; 245
+     736:	b0 e0       	ldi	r27, 0x00	; 0
+     738:	80 91 e1 00 	lds	r24, 0x00E1
+     73c:	fd 01       	movw	r30, r26
+     73e:	81 93       	st	Z+, r24
+		 supportrgb[1] = SupportG;
+     740:	80 91 e2 00 	lds	r24, 0x00E2
+     744:	80 83       	st	Z, r24
+		 supportrgb[2] = SupportB;
+     746:	80 91 e3 00 	lds	r24, 0x00E3
+     74a:	12 96       	adiw	r26, 0x02	; 2
+     74c:	8c 93       	st	X, r24
+	 }
+	 
+	 static bool statussaved = false;
+	 static unsigned char statusrgb[3] = { 0x00, 0x00, 0x00 };
+	 if(statussaved == false)
+     74e:	80 91 f4 00 	lds	r24, 0x00F4
+     752:	88 23       	and	r24, r24
+     754:	69 f4       	brne	.+26     	; 0x770 <Altered_Control+0x9e>
+	 {
+		 statusrgb[0] = StatusR;
+     756:	a1 ef       	ldi	r26, 0xF1	; 241
+     758:	b0 e0       	ldi	r27, 0x00	; 0
+     75a:	80 91 e4 00 	lds	r24, 0x00E4
+     75e:	fd 01       	movw	r30, r26
+     760:	81 93       	st	Z+, r24
+		 statusrgb[1] = StatusG;
+     762:	80 91 e5 00 	lds	r24, 0x00E5
+     766:	80 83       	st	Z, r24
+		 statusrgb[2] = StatusB;
+     768:	80 91 e6 00 	lds	r24, 0x00E6
+     76c:	12 96       	adiw	r26, 0x02	; 2
+     76e:	8c 93       	st	X, r24
+	 }
+	 
+	 
+	 if((value & (1 << REGVAL_CONTROL_ENABLE)) == (1 << REGVAL_CONTROL_ENABLE))
+     770:	dc 2c       	mov	r13, r12
+     772:	c0 fe       	sbrs	r12, 0
+     774:	43 c1       	rjmp	.+646    	; 0x9fc <Altered_Control+0x32a>
+	 {
+		 if(Enabled == false)
+     776:	80 91 60 00 	lds	r24, 0x0060
+     77a:	88 23       	and	r24, r24
+     77c:	29 f4       	brne	.+10     	; 0x788 <Altered_Control+0xb6>
+		 {
+			 Enabled = true;
+     77e:	81 e0       	ldi	r24, 0x01	; 1
+     780:	80 93 60 00 	sts	0x0060, r24
+			 stripssaved = false;
+     784:	10 92 fb 00 	sts	0x00FB, r1
+		 }
+		 
+		 if((value & (1 << REGVAL_CONTROL_ENABLESTRIPS)) == (1 << REGVAL_CONTROL_ENABLESTRIPS) && EnableStrips == false)
+     788:	d3 fe       	sbrs	r13, 3
+     78a:	16 c0       	rjmp	.+44     	; 0x7b8 <Altered_Control+0xe6>
+     78c:	80 91 61 00 	lds	r24, 0x0061
+     790:	88 23       	and	r24, r24
+     792:	19 f5       	brne	.+70     	; 0x7da <Altered_Control+0x108>
+		 {
+			EnableStrips = true;
+     794:	81 e0       	ldi	r24, 0x01	; 1
+     796:	80 93 61 00 	sts	0x0061, r24
+
+			ChangeEmphasisStrips(emphasisrgb[0], emphasisrgb[1], emphasisrgb[2]);
+     79a:	e8 ef       	ldi	r30, 0xF8	; 248
+     79c:	f0 e0       	ldi	r31, 0x00	; 0
+     79e:	80 81       	ld	r24, Z
+     7a0:	61 81       	ldd	r22, Z+1	; 0x01
+     7a2:	42 81       	ldd	r20, Z+2	; 0x02
+     7a4:	48 de       	rcall	.-880    	; 0x436 <ChangeEmphasisStrips>
+			ChangeSupportStrips(supportrgb[0], supportrgb[1], supportrgb[2]);
+     7a6:	e5 ef       	ldi	r30, 0xF5	; 245
+     7a8:	f0 e0       	ldi	r31, 0x00	; 0
+     7aa:	80 81       	ld	r24, Z
+     7ac:	61 81       	ldd	r22, Z+1	; 0x01
+     7ae:	42 81       	ldd	r20, Z+2	; 0x02
+     7b0:	1e de       	rcall	.-964    	; 0x3ee <ChangeSupportStrips>
+
+			stripssaved = false;
+     7b2:	10 92 fb 00 	sts	0x00FB, r1
+     7b6:	11 c0       	rjmp	.+34     	; 0x7da <Altered_Control+0x108>
+		 }
+		 else if((value & (1 << REGVAL_CONTROL_ENABLESTRIPS)) != (1 << REGVAL_CONTROL_ENABLESTRIPS) && EnableStrips == true)
+     7b8:	80 91 61 00 	lds	r24, 0x0061
+     7bc:	88 23       	and	r24, r24
+     7be:	69 f0       	breq	.+26     	; 0x7da <Altered_Control+0x108>
+		 {
+			EnableStrips = false;
+     7c0:	10 92 61 00 	sts	0x0061, r1
+
+			ChangeEmphasisStrips(0x00, 0x00, 0x00);
+     7c4:	80 e0       	ldi	r24, 0x00	; 0
+     7c6:	60 e0       	ldi	r22, 0x00	; 0
+     7c8:	40 e0       	ldi	r20, 0x00	; 0
+     7ca:	35 de       	rcall	.-918    	; 0x436 <ChangeEmphasisStrips>
+			ChangeSupportStrips(0x00, 0x00, 0x00);
+     7cc:	80 e0       	ldi	r24, 0x00	; 0
+     7ce:	60 e0       	ldi	r22, 0x00	; 0
+     7d0:	40 e0       	ldi	r20, 0x00	; 0
+     7d2:	0d de       	rcall	.-998    	; 0x3ee <ChangeSupportStrips>
+			
+			stripssaved = true;
+     7d4:	81 e0       	ldi	r24, 0x01	; 1
+     7d6:	80 93 fb 00 	sts	0x00FB, r24
+		 }
+
+		 if((value & (1 << REGVAL_CONTROL_ENABLEUTILITIES)) == (1 << REGVAL_CONTROL_ENABLEUTILITIES) && EnableUtilities == false)
+     7da:	d4 fe       	sbrs	r13, 4
+     7dc:	23 c0       	rjmp	.+70     	; 0x824 <Altered_Control+0x152>
+     7de:	80 91 62 00 	lds	r24, 0x0062
+     7e2:	88 23       	and	r24, r24
+     7e4:	91 f5       	brne	.+100    	; 0x84a <Altered_Control+0x178>
+		 {
+			EnableUtilities = true;
+     7e6:	81 e0       	ldi	r24, 0x01	; 1
+     7e8:	80 93 62 00 	sts	0x0062, r24
+
+			ToggleCameraFloodlight(floodlightsdc[0]);
+     7ec:	0f ef       	ldi	r16, 0xFF	; 255
+     7ee:	10 e0       	ldi	r17, 0x00	; 0
+     7f0:	f8 01       	movw	r30, r16
+     7f2:	81 91       	ld	r24, Z+
+     7f4:	8f 01       	movw	r16, r30
+     7f6:	98 de       	rcall	.-720    	; 0x528 <ToggleCameraFloodlight>
+			ToggleLandingFloodlights(floodlightsdc[1]);
+     7f8:	f8 01       	movw	r30, r16
+     7fa:	80 81       	ld	r24, Z
+     7fc:	8f de       	rcall	.-738    	; 0x51c <ToggleLandingFloodlights>
+			ToggleCameraOrientLaser(lasersdc[0]);
+     7fe:	0f 2e       	mov	r0, r31
+     800:	fc ef       	ldi	r31, 0xFC	; 252
+     802:	ef 2e       	mov	r14, r31
+     804:	f0 e0       	ldi	r31, 0x00	; 0
+     806:	ff 2e       	mov	r15, r31
+     808:	f0 2d       	mov	r31, r0
+     80a:	f7 01       	movw	r30, r14
+     80c:	81 91       	ld	r24, Z+
+     80e:	8f 01       	movw	r16, r30
+     810:	7f de       	rcall	.-770    	; 0x510 <ToggleCameraOrientLaser>
+			ToggleCameraLevelLaser(lasersdc[1]);
+     812:	f8 01       	movw	r30, r16
+     814:	80 81       	ld	r24, Z
+     816:	76 de       	rcall	.-788    	; 0x504 <ToggleCameraLevelLaser>
+			ToggleScanLaser(lasersdc[2]);
+     818:	f7 01       	movw	r30, r14
+     81a:	82 81       	ldd	r24, Z+2	; 0x02
+     81c:	6d de       	rcall	.-806    	; 0x4f8 <ToggleScanLaser>
+
+			utilitiessaved = false;
+     81e:	10 92 01 01 	sts	0x0101, r1
+     822:	13 c0       	rjmp	.+38     	; 0x84a <Altered_Control+0x178>
+		 }
+		 else if((value & (1 << REGVAL_CONTROL_ENABLEUTILITIES)) != (1 << REGVAL_CONTROL_ENABLEUTILITIES) && EnableUtilities == true)
+     824:	80 91 62 00 	lds	r24, 0x0062
+     828:	88 23       	and	r24, r24
+     82a:	79 f0       	breq	.+30     	; 0x84a <Altered_Control+0x178>
+		 {
+			EnableUtilities = false;
+     82c:	10 92 62 00 	sts	0x0062, r1
+
+			ToggleCameraFloodlight(0x00);
+     830:	80 e0       	ldi	r24, 0x00	; 0
+     832:	7a de       	rcall	.-780    	; 0x528 <ToggleCameraFloodlight>
+			ToggleLandingFloodlights(0x00);
+     834:	80 e0       	ldi	r24, 0x00	; 0
+     836:	72 de       	rcall	.-796    	; 0x51c <ToggleLandingFloodlights>
+			ToggleCameraOrientLaser(0x00);
+     838:	80 e0       	ldi	r24, 0x00	; 0
+     83a:	6a de       	rcall	.-812    	; 0x510 <ToggleCameraOrientLaser>
+			ToggleCameraLevelLaser(0x00);
+     83c:	80 e0       	ldi	r24, 0x00	; 0
+     83e:	62 de       	rcall	.-828    	; 0x504 <ToggleCameraLevelLaser>
+			ToggleScanLaser(0x00);
+     840:	80 e0       	ldi	r24, 0x00	; 0
+     842:	5a de       	rcall	.-844    	; 0x4f8 <ToggleScanLaser>
+
+			utilitiessaved = true;
+     844:	81 e0       	ldi	r24, 0x01	; 1
+     846:	80 93 01 01 	sts	0x0101, r24
+		 }
+
+		 if((value & (1 << REGVAL_CONTROL_ENABLENOTIFY)) == (1 << REGVAL_CONTROL_ENABLENOTIFY) && EnableNotify == false)
+     84a:	d5 fe       	sbrs	r13, 5
+     84c:	10 c0       	rjmp	.+32     	; 0x86e <Altered_Control+0x19c>
+     84e:	80 91 63 00 	lds	r24, 0x0063
+     852:	88 23       	and	r24, r24
+     854:	c9 f4       	brne	.+50     	; 0x888 <Altered_Control+0x1b6>
+		 {
+			EnableNotify = true;
+     856:	81 e0       	ldi	r24, 0x01	; 1
+     858:	80 93 63 00 	sts	0x0063, r24
+
+			ChangeStatusNotify(statusrgb[0], statusrgb[1], statusrgb[2]);
+     85c:	e1 ef       	ldi	r30, 0xF1	; 241
+     85e:	f0 e0       	ldi	r31, 0x00	; 0
+     860:	80 81       	ld	r24, Z
+     862:	61 81       	ldd	r22, Z+1	; 0x01
+     864:	42 81       	ldd	r20, Z+2	; 0x02
+     866:	30 de       	rcall	.-928    	; 0x4c8 <ChangeStatusNotify>
+
+			statussaved = false;
+     868:	10 92 f4 00 	sts	0x00F4, r1
+     86c:	0d c0       	rjmp	.+26     	; 0x888 <Altered_Control+0x1b6>
+		 }
+		 else if((value & (1 << REGVAL_CONTROL_ENABLENOTIFY)) != (1 << REGVAL_CONTROL_ENABLENOTIFY) && EnableNotify == true)
+     86e:	80 91 63 00 	lds	r24, 0x0063
+     872:	88 23       	and	r24, r24
+     874:	49 f0       	breq	.+18     	; 0x888 <Altered_Control+0x1b6>
+		 {
+			EnableNotify = false;
+     876:	10 92 63 00 	sts	0x0063, r1
+
+			ChangeStatusNotify(0x00, 0x00, 0x00);
+     87a:	80 e0       	ldi	r24, 0x00	; 0
+     87c:	60 e0       	ldi	r22, 0x00	; 0
+     87e:	40 e0       	ldi	r20, 0x00	; 0
+     880:	23 de       	rcall	.-954    	; 0x4c8 <ChangeStatusNotify>
+
+			statussaved = true;
+     882:	81 e0       	ldi	r24, 0x01	; 1
+     884:	80 93 f4 00 	sts	0x00F4, r24
+		 }
+		 
+		 
+		 if((value & (1 << REGVAL_CONTROL_ALLOFF)) == (1 << REGVAL_CONTROL_ALLOFF) && AllOff == false)
+     888:	d1 fe       	sbrs	r13, 1
+     88a:	23 c0       	rjmp	.+70     	; 0x8d2 <Altered_Control+0x200>
+     88c:	80 91 ea 00 	lds	r24, 0x00EA
+     890:	88 23       	and	r24, r24
+     892:	f9 f4       	brne	.+62     	; 0x8d2 <Altered_Control+0x200>
+		 {
+			 AllOff = true;
+     894:	11 e0       	ldi	r17, 0x01	; 1
+     896:	10 93 ea 00 	sts	0x00EA, r17
+
+			 ToggleCameraFloodlight(0x00);
+     89a:	46 de       	rcall	.-884    	; 0x528 <ToggleCameraFloodlight>
+			 ToggleLandingFloodlights(0x00);
+     89c:	80 e0       	ldi	r24, 0x00	; 0
+     89e:	3e de       	rcall	.-900    	; 0x51c <ToggleLandingFloodlights>
+			 ToggleCameraOrientLaser(0x00);
+     8a0:	80 e0       	ldi	r24, 0x00	; 0
+     8a2:	36 de       	rcall	.-916    	; 0x510 <ToggleCameraOrientLaser>
+			 ToggleCameraLevelLaser(0x00);
+     8a4:	80 e0       	ldi	r24, 0x00	; 0
+     8a6:	2e de       	rcall	.-932    	; 0x504 <ToggleCameraLevelLaser>
+			 ToggleScanLaser(0x00);
+     8a8:	80 e0       	ldi	r24, 0x00	; 0
+     8aa:	26 de       	rcall	.-948    	; 0x4f8 <ToggleScanLaser>
+			 ChangeEmphasisStrips(0x00, 0x00, 0x00);
+     8ac:	80 e0       	ldi	r24, 0x00	; 0
+     8ae:	60 e0       	ldi	r22, 0x00	; 0
+     8b0:	40 e0       	ldi	r20, 0x00	; 0
+     8b2:	c1 dd       	rcall	.-1150   	; 0x436 <ChangeEmphasisStrips>
+			 ChangeSupportStrips(0x00, 0x00, 0x00);
+     8b4:	80 e0       	ldi	r24, 0x00	; 0
+     8b6:	60 e0       	ldi	r22, 0x00	; 0
+     8b8:	40 e0       	ldi	r20, 0x00	; 0
+     8ba:	99 dd       	rcall	.-1230   	; 0x3ee <ChangeSupportStrips>
+			 ChangeStatusNotify(0x00, 0x00, 0x00);
+     8bc:	80 e0       	ldi	r24, 0x00	; 0
+     8be:	60 e0       	ldi	r22, 0x00	; 0
+     8c0:	40 e0       	ldi	r20, 0x00	; 0
+     8c2:	02 de       	rcall	.-1020   	; 0x4c8 <ChangeStatusNotify>
+
+			 utilitiessaved = true;
+     8c4:	10 93 01 01 	sts	0x0101, r17
+			 stripssaved = true;
+     8c8:	10 93 fb 00 	sts	0x00FB, r17
+			 statussaved = true;
+     8cc:	10 93 f4 00 	sts	0x00F4, r17
+     8d0:	02 c0       	rjmp	.+4      	; 0x8d6 <Altered_Control+0x204>
+		 }
+		 else
+		 {
+			AllOff = false;
+     8d2:	10 92 ea 00 	sts	0x00EA, r1
+		 }
+
+		 if((value & (1 << REGVAL_CONTROL_ALLON)) == (1 << REGVAL_CONTROL_ALLON) && AllOn == false && AllOff == false)
+     8d6:	d2 fe       	sbrs	r13, 2
+     8d8:	28 c0       	rjmp	.+80     	; 0x92a <Altered_Control+0x258>
+     8da:	80 91 eb 00 	lds	r24, 0x00EB
+     8de:	88 23       	and	r24, r24
+     8e0:	21 f5       	brne	.+72     	; 0x92a <Altered_Control+0x258>
+     8e2:	80 91 ea 00 	lds	r24, 0x00EA
+     8e6:	88 23       	and	r24, r24
+     8e8:	01 f5       	brne	.+64     	; 0x92a <Altered_Control+0x258>
+		 {
+			 AllOn = true;
+     8ea:	11 e0       	ldi	r17, 0x01	; 1
+     8ec:	10 93 eb 00 	sts	0x00EB, r17
+
+			 ToggleCameraFloodlight(0xFF);
+     8f0:	8f ef       	ldi	r24, 0xFF	; 255
+     8f2:	1a de       	rcall	.-972    	; 0x528 <ToggleCameraFloodlight>
+			 ToggleLandingFloodlights(0xFF);
+     8f4:	8f ef       	ldi	r24, 0xFF	; 255
+     8f6:	12 de       	rcall	.-988    	; 0x51c <ToggleLandingFloodlights>
+			 ToggleCameraOrientLaser(0xFF);
+     8f8:	8f ef       	ldi	r24, 0xFF	; 255
+     8fa:	0a de       	rcall	.-1004   	; 0x510 <ToggleCameraOrientLaser>
+			 ToggleCameraLevelLaser(0xFF);
+     8fc:	8f ef       	ldi	r24, 0xFF	; 255
+     8fe:	02 de       	rcall	.-1020   	; 0x504 <ToggleCameraLevelLaser>
+			 ToggleScanLaser(0xFF);
+     900:	8f ef       	ldi	r24, 0xFF	; 255
+     902:	fa dd       	rcall	.-1036   	; 0x4f8 <ToggleScanLaser>
+			 ChangeEmphasisStrips(0xFF, 0xFF, 0xFF);
+     904:	8f ef       	ldi	r24, 0xFF	; 255
+     906:	6f ef       	ldi	r22, 0xFF	; 255
+     908:	4f ef       	ldi	r20, 0xFF	; 255
+     90a:	95 dd       	rcall	.-1238   	; 0x436 <ChangeEmphasisStrips>
+			 ChangeSupportStrips(0xFF, 0xFF, 0xFF);
+     90c:	8f ef       	ldi	r24, 0xFF	; 255
+     90e:	6f ef       	ldi	r22, 0xFF	; 255
+     910:	4f ef       	ldi	r20, 0xFF	; 255
+     912:	6d dd       	rcall	.-1318   	; 0x3ee <ChangeSupportStrips>
+			 ChangeStatusNotify(0xFF, 0xFF, 0xFF);
+     914:	8f ef       	ldi	r24, 0xFF	; 255
+     916:	6f ef       	ldi	r22, 0xFF	; 255
+     918:	4f ef       	ldi	r20, 0xFF	; 255
+     91a:	d6 dd       	rcall	.-1108   	; 0x4c8 <ChangeStatusNotify>
+
+			 utilitiessaved = true;
+     91c:	10 93 01 01 	sts	0x0101, r17
+			 stripssaved = true;
+     920:	10 93 fb 00 	sts	0x00FB, r17
+			 statussaved = true;
+     924:	10 93 f4 00 	sts	0x00F4, r17
+     928:	02 c0       	rjmp	.+4      	; 0x92e <Altered_Control+0x25c>
+		 }
+		 else
+		 {
+			AllOn = false;
+     92a:	10 92 eb 00 	sts	0x00EB, r1
+		 }
+
+		 if(AllOff == false && AllOn == false)
+     92e:	80 91 ea 00 	lds	r24, 0x00EA
+     932:	88 23       	and	r24, r24
+     934:	09 f0       	breq	.+2      	; 0x938 <Altered_Control+0x266>
+     936:	41 c0       	rjmp	.+130    	; 0x9ba <Altered_Control+0x2e8>
+     938:	80 91 eb 00 	lds	r24, 0x00EB
+     93c:	88 23       	and	r24, r24
+     93e:	e9 f5       	brne	.+122    	; 0x9ba <Altered_Control+0x2e8>
+		 {
+			 ToggleCameraFloodlight(floodlightsdc[0]);
+     940:	0f ef       	ldi	r16, 0xFF	; 255
+     942:	10 e0       	ldi	r17, 0x00	; 0
+     944:	f8 01       	movw	r30, r16
+     946:	81 91       	ld	r24, Z+
+     948:	8f 01       	movw	r16, r30
+     94a:	ee dd       	rcall	.-1060   	; 0x528 <ToggleCameraFloodlight>
+			 ToggleLandingFloodlights(floodlightsdc[1]);
+     94c:	f8 01       	movw	r30, r16
+     94e:	80 81       	ld	r24, Z
+     950:	e5 dd       	rcall	.-1078   	; 0x51c <ToggleLandingFloodlights>
+			 ToggleCameraOrientLaser(lasersdc[0]);
+     952:	0f 2e       	mov	r0, r31
+     954:	fc ef       	ldi	r31, 0xFC	; 252
+     956:	ef 2e       	mov	r14, r31
+     958:	f0 e0       	ldi	r31, 0x00	; 0
+     95a:	ff 2e       	mov	r15, r31
+     95c:	f0 2d       	mov	r31, r0
+     95e:	f7 01       	movw	r30, r14
+     960:	81 91       	ld	r24, Z+
+     962:	8f 01       	movw	r16, r30
+     964:	d5 dd       	rcall	.-1110   	; 0x510 <ToggleCameraOrientLaser>
+			 ToggleCameraLevelLaser(lasersdc[1]);
+     966:	f8 01       	movw	r30, r16
+     968:	80 81       	ld	r24, Z
+     96a:	cc dd       	rcall	.-1128   	; 0x504 <ToggleCameraLevelLaser>
+			 ToggleScanLaser(lasersdc[2]);
+     96c:	f7 01       	movw	r30, r14
+     96e:	82 81       	ldd	r24, Z+2	; 0x02
+     970:	c3 dd       	rcall	.-1146   	; 0x4f8 <ToggleScanLaser>
+			 ChangeEmphasisStrips(emphasisrgb[0], emphasisrgb[1], emphasisrgb[2]);
+     972:	e8 ef       	ldi	r30, 0xF8	; 248
+     974:	f0 e0       	ldi	r31, 0x00	; 0
+     976:	80 81       	ld	r24, Z
+     978:	61 81       	ldd	r22, Z+1	; 0x01
+     97a:	42 81       	ldd	r20, Z+2	; 0x02
+     97c:	5c dd       	rcall	.-1352   	; 0x436 <ChangeEmphasisStrips>
+			 ChangeSupportStrips(supportrgb[0], supportrgb[1], supportrgb[2]);
+     97e:	e5 ef       	ldi	r30, 0xF5	; 245
+     980:	f0 e0       	ldi	r31, 0x00	; 0
+     982:	80 81       	ld	r24, Z
+     984:	61 81       	ldd	r22, Z+1	; 0x01
+     986:	42 81       	ldd	r20, Z+2	; 0x02
+     988:	32 dd       	rcall	.-1436   	; 0x3ee <ChangeSupportStrips>
+			 ChangeStatusNotify(statusrgb[0], statusrgb[1], statusrgb[2]);
+     98a:	e1 ef       	ldi	r30, 0xF1	; 241
+     98c:	f0 e0       	ldi	r31, 0x00	; 0
+     98e:	80 81       	ld	r24, Z
+     990:	61 81       	ldd	r22, Z+1	; 0x01
+     992:	42 81       	ldd	r20, Z+2	; 0x02
+     994:	99 dd       	rcall	.-1230   	; 0x4c8 <ChangeStatusNotify>
+			 
+			 if(EnableUtilities == true)
+     996:	80 91 62 00 	lds	r24, 0x0062
+     99a:	88 23       	and	r24, r24
+     99c:	11 f0       	breq	.+4      	; 0x9a2 <Altered_Control+0x2d0>
+			 {
+				utilitiessaved = false;
+     99e:	10 92 01 01 	sts	0x0101, r1
+			 }
+			 if(EnableStrips == true)
+     9a2:	80 91 61 00 	lds	r24, 0x0061
+     9a6:	88 23       	and	r24, r24
+     9a8:	11 f0       	breq	.+4      	; 0x9ae <Altered_Control+0x2dc>
+			 {
+				stripssaved = false;
+     9aa:	10 92 fb 00 	sts	0x00FB, r1
+			 }
+			 if(EnableNotify == true)
+     9ae:	80 91 63 00 	lds	r24, 0x0063
+     9b2:	88 23       	and	r24, r24
+     9b4:	11 f0       	breq	.+4      	; 0x9ba <Altered_Control+0x2e8>
+			 {
+				statussaved = false;
+     9b6:	10 92 f4 00 	sts	0x00F4, r1
+			 }
+		 }
+
+
+		 if((value & (1 << REGVAL_CONTROL_LOWPWRMODE)) == (1 << REGVAL_CONTROL_LOWPWRMODE) && LowPowerMode == false)
+     9ba:	d6 fe       	sbrs	r13, 6
+     9bc:	0a c0       	rjmp	.+20     	; 0x9d2 <Altered_Control+0x300>
+     9be:	80 91 ec 00 	lds	r24, 0x00EC
+     9c2:	88 23       	and	r24, r24
+     9c4:	71 f4       	brne	.+28     	; 0x9e2 <Altered_Control+0x310>
+		 {
+			LowPowerMode = true;
+     9c6:	81 e0       	ldi	r24, 0x01	; 1
+     9c8:	80 93 ec 00 	sts	0x00EC, r24
+			SetTimerResolution(PowerSaving);
+     9cc:	80 e0       	ldi	r24, 0x00	; 0
+     9ce:	b3 dd       	rcall	.-1178   	; 0x536 <SetTimerResolution>
+     9d0:	08 c0       	rjmp	.+16     	; 0x9e2 <Altered_Control+0x310>
+		 }
+		 else if((value & (1 << REGVAL_CONTROL_LOWPWRMODE)) != (1 << REGVAL_CONTROL_LOWPWRMODE) && LowPowerMode == true)
+     9d2:	80 91 ec 00 	lds	r24, 0x00EC
+     9d6:	88 23       	and	r24, r24
+     9d8:	21 f0       	breq	.+8      	; 0x9e2 <Altered_Control+0x310>
+		 {
+			LowPowerMode = false;
+     9da:	10 92 ec 00 	sts	0x00EC, r1
+			SetTimerResolution(DefaultTimerResolution);
+     9de:	81 e0       	ldi	r24, 0x01	; 1
+     9e0:	aa dd       	rcall	.-1196   	; 0x536 <SetTimerResolution>
+		 }
+
+
+		 if((value & (1 << REGVAL_CONTROL_RESETREG)) == (1 << REGVAL_CONTROL_RESETREG))
+     9e2:	cc 20       	and	r12, r12
+     9e4:	c4 f4       	brge	.+48     	; 0xa16 <Altered_Control+0x344>
+     9e6:	e6 e6       	ldi	r30, 0x66	; 102
+     9e8:	f0 e0       	ldi	r31, 0x00	; 0
+		 {
+			for(int i = 0; i < REGISTER_COUNT; i++)
+     9ea:	26 eb       	ldi	r18, 0xB6	; 182
+     9ec:	30 e0       	ldi	r19, 0x00	; 0
+			{
+				REGISTERS[i].Value = REGISTERS[i].DefaultValue;
+     9ee:	81 81       	ldd	r24, Z+1	; 0x01
+     9f0:	80 83       	st	Z, r24
+     9f2:	35 96       	adiw	r30, 0x05	; 5
+		 }
+
+
+		 if((value & (1 << REGVAL_CONTROL_RESETREG)) == (1 << REGVAL_CONTROL_RESETREG))
+		 {
+			for(int i = 0; i < REGISTER_COUNT; i++)
+     9f4:	e2 17       	cp	r30, r18
+     9f6:	f3 07       	cpc	r31, r19
+     9f8:	d1 f7       	brne	.-12     	; 0x9ee <Altered_Control+0x31c>
+     9fa:	0d c0       	rjmp	.+26     	; 0xa16 <Altered_Control+0x344>
+			}
+		 }
+	 }
+	 else
+	 {
+		 Enabled = false;
+     9fc:	10 92 60 00 	sts	0x0060, r1
+
+		 ChangeEmphasisStrips(0, 0, 0);
+     a00:	80 e0       	ldi	r24, 0x00	; 0
+     a02:	60 e0       	ldi	r22, 0x00	; 0
+     a04:	40 e0       	ldi	r20, 0x00	; 0
+     a06:	17 dd       	rcall	.-1490   	; 0x436 <ChangeEmphasisStrips>
+		 ChangeSupportStrips(0, 0, 0);
+     a08:	80 e0       	ldi	r24, 0x00	; 0
+     a0a:	60 e0       	ldi	r22, 0x00	; 0
+     a0c:	40 e0       	ldi	r20, 0x00	; 0
+     a0e:	ef dc       	rcall	.-1570   	; 0x3ee <ChangeSupportStrips>
+		 stripssaved = true;
+     a10:	81 e0       	ldi	r24, 0x01	; 1
+     a12:	80 93 fb 00 	sts	0x00FB, r24
+	 }
+ }
+     a16:	1f 91       	pop	r17
+     a18:	0f 91       	pop	r16
+     a1a:	ff 90       	pop	r15
+     a1c:	ef 90       	pop	r14
+     a1e:	df 90       	pop	r13
+     a20:	cf 90       	pop	r12
+     a22:	08 95       	ret
+
+00000a24 <Render_CameraFloodlight>:
+};
+
+
+void Render_CameraFloodlight(int ms)
+{
+	if(ms <= CameraFloodlightDutyCycle && CameraFloodlightOn == false)
+     a24:	20 91 d6 00 	lds	r18, 0x00D6
+     a28:	30 e0       	ldi	r19, 0x00	; 0
+     a2a:	28 17       	cp	r18, r24
+     a2c:	39 07       	cpc	r19, r25
+     a2e:	6c f0       	brlt	.+26     	; 0xa4a <Render_CameraFloodlight+0x26>
+     a30:	80 91 02 01 	lds	r24, 0x0102
+     a34:	88 23       	and	r24, r24
+     a36:	a1 f4       	brne	.+40     	; 0xa60 <Render_CameraFloodlight+0x3c>
+	{
+		FLOODLIGHTPORT |= (1 << CAMFLOODLIGHTS);
+     a38:	e2 e3       	ldi	r30, 0x32	; 50
+     a3a:	f0 e0       	ldi	r31, 0x00	; 0
+     a3c:	80 81       	ld	r24, Z
+     a3e:	81 60       	ori	r24, 0x01	; 1
+     a40:	80 83       	st	Z, r24
+		CameraFloodlightOn = true;
+     a42:	81 e0       	ldi	r24, 0x01	; 1
+     a44:	80 93 02 01 	sts	0x0102, r24
+     a48:	08 95       	ret
+	}
+	else if(ms > CameraFloodlightDutyCycle && CameraFloodlightOn == true)
+     a4a:	80 91 02 01 	lds	r24, 0x0102
+     a4e:	88 23       	and	r24, r24
+     a50:	39 f0       	breq	.+14     	; 0xa60 <Render_CameraFloodlight+0x3c>
+	{
+		FLOODLIGHTPORT &= ~(1 << CAMFLOODLIGHTS);
+     a52:	e2 e3       	ldi	r30, 0x32	; 50
+     a54:	f0 e0       	ldi	r31, 0x00	; 0
+     a56:	80 81       	ld	r24, Z
+     a58:	8e 7f       	andi	r24, 0xFE	; 254
+     a5a:	80 83       	st	Z, r24
+		CameraFloodlightOn = false;
+     a5c:	10 92 02 01 	sts	0x0102, r1
+     a60:	08 95       	ret
+
+00000a62 <Render_LandingFloodlight>:
+	}
+}
+void Render_LandingFloodlight(int ms)
+{
+	if(ms <= LandingFloodlightDutyCycle && LandingFloodlightOn == false)
+     a62:	20 91 d7 00 	lds	r18, 0x00D7
+     a66:	30 e0       	ldi	r19, 0x00	; 0
+     a68:	28 17       	cp	r18, r24
+     a6a:	39 07       	cpc	r19, r25
+     a6c:	6c f0       	brlt	.+26     	; 0xa88 <Render_LandingFloodlight+0x26>
+     a6e:	80 91 03 01 	lds	r24, 0x0103
+     a72:	88 23       	and	r24, r24
+     a74:	a1 f4       	brne	.+40     	; 0xa9e <Render_LandingFloodlight+0x3c>
+	{
+		FLOODLIGHTPORT |= (1 << LANDFLOODLIGHTS);
+     a76:	e2 e3       	ldi	r30, 0x32	; 50
+     a78:	f0 e0       	ldi	r31, 0x00	; 0
+     a7a:	80 81       	ld	r24, Z
+     a7c:	82 60       	ori	r24, 0x02	; 2
+     a7e:	80 83       	st	Z, r24
+		LandingFloodlightOn = true;
+     a80:	81 e0       	ldi	r24, 0x01	; 1
+     a82:	80 93 03 01 	sts	0x0103, r24
+     a86:	08 95       	ret
+	}
+	else if(ms > LandingFloodlightDutyCycle && LandingFloodlightOn == true)
+     a88:	80 91 03 01 	lds	r24, 0x0103
+     a8c:	88 23       	and	r24, r24
+     a8e:	39 f0       	breq	.+14     	; 0xa9e <Render_LandingFloodlight+0x3c>
+	{
+		FLOODLIGHTPORT &= ~(1 << LANDFLOODLIGHTS);
+     a90:	e2 e3       	ldi	r30, 0x32	; 50
+     a92:	f0 e0       	ldi	r31, 0x00	; 0
+     a94:	80 81       	ld	r24, Z
+     a96:	8d 7f       	andi	r24, 0xFD	; 253
+     a98:	80 83       	st	Z, r24
+		LandingFloodlightOn = false;
+     a9a:	10 92 03 01 	sts	0x0103, r1
+     a9e:	08 95       	ret
+
+00000aa0 <Render_CameraOrientLaser>:
+}
+
+
+void Render_CameraOrientLaser(int ms)
+{
+	if(ms <= CameraOrientLaserDutyCycle && CameraOrientLaserOn == false)
+     aa0:	20 91 db 00 	lds	r18, 0x00DB
+     aa4:	30 e0       	ldi	r19, 0x00	; 0
+     aa6:	28 17       	cp	r18, r24
+     aa8:	39 07       	cpc	r19, r25
+     aaa:	6c f0       	brlt	.+26     	; 0xac6 <Render_CameraOrientLaser+0x26>
+     aac:	80 91 04 01 	lds	r24, 0x0104
+     ab0:	88 23       	and	r24, r24
+     ab2:	a1 f4       	brne	.+40     	; 0xadc <Render_CameraOrientLaser+0x3c>
+	{
+		LASERPORT |= (1 << CAMORIENTLASER);
+     ab4:	e2 e3       	ldi	r30, 0x32	; 50
+     ab6:	f0 e0       	ldi	r31, 0x00	; 0
+     ab8:	80 81       	ld	r24, Z
+     aba:	84 60       	ori	r24, 0x04	; 4
+     abc:	80 83       	st	Z, r24
+		CameraOrientLaserOn = true;
+     abe:	81 e0       	ldi	r24, 0x01	; 1
+     ac0:	80 93 04 01 	sts	0x0104, r24
+     ac4:	08 95       	ret
+	}
+	else if(ms > CameraOrientLaserDutyCycle && CameraOrientLaserOn == true)
+     ac6:	80 91 04 01 	lds	r24, 0x0104
+     aca:	88 23       	and	r24, r24
+     acc:	39 f0       	breq	.+14     	; 0xadc <Render_CameraOrientLaser+0x3c>
+	{
+		LASERPORT &= ~(1 << CAMORIENTLASER);
+     ace:	e2 e3       	ldi	r30, 0x32	; 50
+     ad0:	f0 e0       	ldi	r31, 0x00	; 0
+     ad2:	80 81       	ld	r24, Z
+     ad4:	8b 7f       	andi	r24, 0xFB	; 251
+     ad6:	80 83       	st	Z, r24
+		CameraOrientLaserOn = false;
+     ad8:	10 92 04 01 	sts	0x0104, r1
+     adc:	08 95       	ret
+
+00000ade <Render_CameraLevelLaser>:
+	}
+}
+void Render_CameraLevelLaser(int ms)
+{
+	if(ms <= CameraLevelLaserDutyCycle && CameraLevelLaserOn == false)
+     ade:	20 91 dc 00 	lds	r18, 0x00DC
+     ae2:	30 e0       	ldi	r19, 0x00	; 0
+     ae4:	28 17       	cp	r18, r24
+     ae6:	39 07       	cpc	r19, r25
+     ae8:	6c f0       	brlt	.+26     	; 0xb04 <Render_CameraLevelLaser+0x26>
+     aea:	80 91 05 01 	lds	r24, 0x0105
+     aee:	88 23       	and	r24, r24
+     af0:	a1 f4       	brne	.+40     	; 0xb1a <Render_CameraLevelLaser+0x3c>
+	{
+		LASERPORT |= (1 << CAMLEVELLASER);
+     af2:	e2 e3       	ldi	r30, 0x32	; 50
+     af4:	f0 e0       	ldi	r31, 0x00	; 0
+     af6:	80 81       	ld	r24, Z
+     af8:	88 60       	ori	r24, 0x08	; 8
+     afa:	80 83       	st	Z, r24
+		CameraLevelLaserOn = true;
+     afc:	81 e0       	ldi	r24, 0x01	; 1
+     afe:	80 93 05 01 	sts	0x0105, r24
+     b02:	08 95       	ret
+	}
+	else if(ms > CameraLevelLaserDutyCycle && CameraLevelLaserOn == true)
+     b04:	80 91 05 01 	lds	r24, 0x0105
+     b08:	88 23       	and	r24, r24
+     b0a:	39 f0       	breq	.+14     	; 0xb1a <Render_CameraLevelLaser+0x3c>
+	{
+		LASERPORT &= ~(1 << CAMLEVELLASER);
+     b0c:	e2 e3       	ldi	r30, 0x32	; 50
+     b0e:	f0 e0       	ldi	r31, 0x00	; 0
+     b10:	80 81       	ld	r24, Z
+     b12:	87 7f       	andi	r24, 0xF7	; 247
+     b14:	80 83       	st	Z, r24
+		CameraLevelLaserOn = false;
+     b16:	10 92 05 01 	sts	0x0105, r1
+     b1a:	08 95       	ret
+
+00000b1c <Render_ScanLaser>:
+	}
+}
+void Render_ScanLaser(int ms)
+{
+	if(ms <= ScanLaserDutyCycle && ScanLaserOn == false)
+     b1c:	20 91 dd 00 	lds	r18, 0x00DD
+     b20:	30 e0       	ldi	r19, 0x00	; 0
+     b22:	28 17       	cp	r18, r24
+     b24:	39 07       	cpc	r19, r25
+     b26:	6c f0       	brlt	.+26     	; 0xb42 <Render_ScanLaser+0x26>
+     b28:	80 91 06 01 	lds	r24, 0x0106
+     b2c:	88 23       	and	r24, r24
+     b2e:	a1 f4       	brne	.+40     	; 0xb58 <Render_ScanLaser+0x3c>
+	{
+		LASERPORT |= (1 << SCANLASER);
+     b30:	e2 e3       	ldi	r30, 0x32	; 50
+     b32:	f0 e0       	ldi	r31, 0x00	; 0
+     b34:	80 81       	ld	r24, Z
+     b36:	80 61       	ori	r24, 0x10	; 16
+     b38:	80 83       	st	Z, r24
+		ScanLaserOn = true;
+     b3a:	81 e0       	ldi	r24, 0x01	; 1
+     b3c:	80 93 06 01 	sts	0x0106, r24
+     b40:	08 95       	ret
+	}
+	else if(ms > ScanLaserDutyCycle && ScanLaserOn == true)
+     b42:	80 91 06 01 	lds	r24, 0x0106
+     b46:	88 23       	and	r24, r24
+     b48:	39 f0       	breq	.+14     	; 0xb58 <Render_ScanLaser+0x3c>
+	{
+		LASERPORT &= ~(1 << SCANLASER);
+     b4a:	e2 e3       	ldi	r30, 0x32	; 50
+     b4c:	f0 e0       	ldi	r31, 0x00	; 0
+     b4e:	80 81       	ld	r24, Z
+     b50:	8f 7e       	andi	r24, 0xEF	; 239
+     b52:	80 83       	st	Z, r24
+		ScanLaserOn = false;
+     b54:	10 92 06 01 	sts	0x0106, r1
+     b58:	08 95       	ret
+
+00000b5a <Render_StatusR>:
+}
+
+
+void Render_StatusR(int ms)
+{
+	if(ms <= StatusRDutyCycle && StatusROn == false)
+     b5a:	20 91 e7 00 	lds	r18, 0x00E7
+     b5e:	30 e0       	ldi	r19, 0x00	; 0
+     b60:	28 17       	cp	r18, r24
+     b62:	39 07       	cpc	r19, r25
+     b64:	6c f0       	brlt	.+26     	; 0xb80 <Render_StatusR+0x26>
+     b66:	80 91 07 01 	lds	r24, 0x0107
+     b6a:	88 23       	and	r24, r24
+     b6c:	a1 f4       	brne	.+40     	; 0xb96 <Render_StatusR+0x3c>
+	{
+		STATUSNOTIFYPORT |= (1 << STATUSNOTIFYR);
+     b6e:	e2 e3       	ldi	r30, 0x32	; 50
+     b70:	f0 e0       	ldi	r31, 0x00	; 0
+     b72:	80 81       	ld	r24, Z
+     b74:	80 62       	ori	r24, 0x20	; 32
+     b76:	80 83       	st	Z, r24
+		StatusROn = true;
+     b78:	81 e0       	ldi	r24, 0x01	; 1
+     b7a:	80 93 07 01 	sts	0x0107, r24
+     b7e:	08 95       	ret
+	}
+	else if(ms > StatusRDutyCycle && StatusROn == true)
+     b80:	80 91 07 01 	lds	r24, 0x0107
+     b84:	88 23       	and	r24, r24
+     b86:	39 f0       	breq	.+14     	; 0xb96 <Render_StatusR+0x3c>
+	{
+		STATUSNOTIFYPORT &= ~(1 << STATUSNOTIFYR);
+     b88:	e2 e3       	ldi	r30, 0x32	; 50
+     b8a:	f0 e0       	ldi	r31, 0x00	; 0
+     b8c:	80 81       	ld	r24, Z
+     b8e:	8f 7d       	andi	r24, 0xDF	; 223
+     b90:	80 83       	st	Z, r24
+		StatusROn = false;
+     b92:	10 92 07 01 	sts	0x0107, r1
+     b96:	08 95       	ret
+
+00000b98 <Render_StatusG>:
+	}
+}
+void Render_StatusG(int ms)
+{
+	if(ms <= StatusGDutyCycle && StatusGOn == false)
+     b98:	20 91 e8 00 	lds	r18, 0x00E8
+     b9c:	30 e0       	ldi	r19, 0x00	; 0
+     b9e:	28 17       	cp	r18, r24
+     ba0:	39 07       	cpc	r19, r25
+     ba2:	6c f0       	brlt	.+26     	; 0xbbe <Render_StatusG+0x26>
+     ba4:	80 91 08 01 	lds	r24, 0x0108
+     ba8:	88 23       	and	r24, r24
+     baa:	a1 f4       	brne	.+40     	; 0xbd4 <Render_StatusG+0x3c>
+	{
+		STATUSNOTIFYPORT |= (1 << STATUSNOTIFYG);
+     bac:	e2 e3       	ldi	r30, 0x32	; 50
+     bae:	f0 e0       	ldi	r31, 0x00	; 0
+     bb0:	80 81       	ld	r24, Z
+     bb2:	80 64       	ori	r24, 0x40	; 64
+     bb4:	80 83       	st	Z, r24
+		StatusGOn = true;
+     bb6:	81 e0       	ldi	r24, 0x01	; 1
+     bb8:	80 93 08 01 	sts	0x0108, r24
+     bbc:	08 95       	ret
+	}
+	else if(ms > StatusGDutyCycle && StatusGOn == true)
+     bbe:	80 91 08 01 	lds	r24, 0x0108
+     bc2:	88 23       	and	r24, r24
+     bc4:	39 f0       	breq	.+14     	; 0xbd4 <Render_StatusG+0x3c>
+	{
+		STATUSNOTIFYPORT &= ~(1 << STATUSNOTIFYG);
+     bc6:	e2 e3       	ldi	r30, 0x32	; 50
+     bc8:	f0 e0       	ldi	r31, 0x00	; 0
+     bca:	80 81       	ld	r24, Z
+     bcc:	8f 7b       	andi	r24, 0xBF	; 191
+     bce:	80 83       	st	Z, r24
+		StatusGOn = false;
+     bd0:	10 92 08 01 	sts	0x0108, r1
+     bd4:	08 95       	ret
+
+00000bd6 <Render_StatusB>:
+	}
+}
+void Render_StatusB(int ms)
+{
+	if(ms <= StatusBDutyCycle && StatusBOn == false)
+     bd6:	20 91 e9 00 	lds	r18, 0x00E9
+     bda:	30 e0       	ldi	r19, 0x00	; 0
+     bdc:	28 17       	cp	r18, r24
+     bde:	39 07       	cpc	r19, r25
+     be0:	6c f0       	brlt	.+26     	; 0xbfc <Render_StatusB+0x26>
+     be2:	80 91 09 01 	lds	r24, 0x0109
+     be6:	88 23       	and	r24, r24
+     be8:	a1 f4       	brne	.+40     	; 0xc12 <Render_StatusB+0x3c>
+	{
+		STATUSNOTIFYPORT |= (1 << STATUSNOTIFYB);
+     bea:	e2 e3       	ldi	r30, 0x32	; 50
+     bec:	f0 e0       	ldi	r31, 0x00	; 0
+     bee:	80 81       	ld	r24, Z
+     bf0:	80 68       	ori	r24, 0x80	; 128
+     bf2:	80 83       	st	Z, r24
+		StatusGOn = true;
+     bf4:	81 e0       	ldi	r24, 0x01	; 1
+     bf6:	80 93 08 01 	sts	0x0108, r24
+     bfa:	08 95       	ret
+	}
+	else if(ms > StatusBDutyCycle && StatusBOn == true)
+     bfc:	80 91 09 01 	lds	r24, 0x0109
+     c00:	88 23       	and	r24, r24
+     c02:	39 f0       	breq	.+14     	; 0xc12 <Render_StatusB+0x3c>
+	{
+		STATUSNOTIFYPORT &= ~(1 << STATUSNOTIFYB);
+     c04:	e2 e3       	ldi	r30, 0x32	; 50
+     c06:	f0 e0       	ldi	r31, 0x00	; 0
+     c08:	80 81       	ld	r24, Z
+     c0a:	8f 77       	andi	r24, 0x7F	; 127
+     c0c:	80 83       	st	Z, r24
+		StatusBOn = false;
+     c0e:	10 92 09 01 	sts	0x0109, r1
+     c12:	08 95       	ret
+
+00000c14 <__subsf3>:
+     c14:	50 58       	subi	r21, 0x80	; 128
+
+00000c16 <__addsf3>:
+     c16:	bb 27       	eor	r27, r27
+     c18:	aa 27       	eor	r26, r26
+     c1a:	0e d0       	rcall	.+28     	; 0xc38 <__addsf3x>
+     c1c:	4d c1       	rjmp	.+666    	; 0xeb8 <__fp_round>
+     c1e:	3e d1       	rcall	.+636    	; 0xe9c <__fp_pscA>
+     c20:	30 f0       	brcs	.+12     	; 0xc2e <__addsf3+0x18>
+     c22:	43 d1       	rcall	.+646    	; 0xeaa <__fp_pscB>
+     c24:	20 f0       	brcs	.+8      	; 0xc2e <__addsf3+0x18>
+     c26:	31 f4       	brne	.+12     	; 0xc34 <__addsf3+0x1e>
+     c28:	9f 3f       	cpi	r25, 0xFF	; 255
+     c2a:	11 f4       	brne	.+4      	; 0xc30 <__addsf3+0x1a>
+     c2c:	1e f4       	brtc	.+6      	; 0xc34 <__addsf3+0x1e>
+     c2e:	33 c1       	rjmp	.+614    	; 0xe96 <__fp_nan>
+     c30:	0e f4       	brtc	.+2      	; 0xc34 <__addsf3+0x1e>
+     c32:	e0 95       	com	r30
+     c34:	e7 fb       	bst	r30, 7
+     c36:	29 c1       	rjmp	.+594    	; 0xe8a <__fp_inf>
+
+00000c38 <__addsf3x>:
+     c38:	e9 2f       	mov	r30, r25
+     c3a:	4f d1       	rcall	.+670    	; 0xeda <__fp_split3>
+     c3c:	80 f3       	brcs	.-32     	; 0xc1e <__addsf3+0x8>
+     c3e:	ba 17       	cp	r27, r26
+     c40:	62 07       	cpc	r22, r18
+     c42:	73 07       	cpc	r23, r19
+     c44:	84 07       	cpc	r24, r20
+     c46:	95 07       	cpc	r25, r21
+     c48:	18 f0       	brcs	.+6      	; 0xc50 <__addsf3x+0x18>
+     c4a:	71 f4       	brne	.+28     	; 0xc68 <__addsf3x+0x30>
+     c4c:	9e f5       	brtc	.+102    	; 0xcb4 <__addsf3x+0x7c>
+     c4e:	67 c1       	rjmp	.+718    	; 0xf1e <__fp_zero>
+     c50:	0e f4       	brtc	.+2      	; 0xc54 <__addsf3x+0x1c>
+     c52:	e0 95       	com	r30
+     c54:	0b 2e       	mov	r0, r27
+     c56:	ba 2f       	mov	r27, r26
+     c58:	a0 2d       	mov	r26, r0
+     c5a:	0b 01       	movw	r0, r22
+     c5c:	b9 01       	movw	r22, r18
+     c5e:	90 01       	movw	r18, r0
+     c60:	0c 01       	movw	r0, r24
+     c62:	ca 01       	movw	r24, r20
+     c64:	a0 01       	movw	r20, r0
+     c66:	11 24       	eor	r1, r1
+     c68:	ff 27       	eor	r31, r31
+     c6a:	59 1b       	sub	r21, r25
+     c6c:	99 f0       	breq	.+38     	; 0xc94 <__addsf3x+0x5c>
+     c6e:	59 3f       	cpi	r21, 0xF9	; 249
+     c70:	50 f4       	brcc	.+20     	; 0xc86 <__addsf3x+0x4e>
+     c72:	50 3e       	cpi	r21, 0xE0	; 224
+     c74:	68 f1       	brcs	.+90     	; 0xcd0 <__addsf3x+0x98>
+     c76:	1a 16       	cp	r1, r26
+     c78:	f0 40       	sbci	r31, 0x00	; 0
+     c7a:	a2 2f       	mov	r26, r18
+     c7c:	23 2f       	mov	r18, r19
+     c7e:	34 2f       	mov	r19, r20
+     c80:	44 27       	eor	r20, r20
+     c82:	58 5f       	subi	r21, 0xF8	; 248
+     c84:	f3 cf       	rjmp	.-26     	; 0xc6c <__addsf3x+0x34>
+     c86:	46 95       	lsr	r20
+     c88:	37 95       	ror	r19
+     c8a:	27 95       	ror	r18
+     c8c:	a7 95       	ror	r26
+     c8e:	f0 40       	sbci	r31, 0x00	; 0
+     c90:	53 95       	inc	r21
+     c92:	c9 f7       	brne	.-14     	; 0xc86 <__addsf3x+0x4e>
+     c94:	7e f4       	brtc	.+30     	; 0xcb4 <__addsf3x+0x7c>
+     c96:	1f 16       	cp	r1, r31
+     c98:	ba 0b       	sbc	r27, r26
+     c9a:	62 0b       	sbc	r22, r18
+     c9c:	73 0b       	sbc	r23, r19
+     c9e:	84 0b       	sbc	r24, r20
+     ca0:	ba f0       	brmi	.+46     	; 0xcd0 <__addsf3x+0x98>
+     ca2:	91 50       	subi	r25, 0x01	; 1
+     ca4:	a1 f0       	breq	.+40     	; 0xcce <__addsf3x+0x96>
+     ca6:	ff 0f       	add	r31, r31
+     ca8:	bb 1f       	adc	r27, r27
+     caa:	66 1f       	adc	r22, r22
+     cac:	77 1f       	adc	r23, r23
+     cae:	88 1f       	adc	r24, r24
+     cb0:	c2 f7       	brpl	.-16     	; 0xca2 <__addsf3x+0x6a>
+     cb2:	0e c0       	rjmp	.+28     	; 0xcd0 <__addsf3x+0x98>
+     cb4:	ba 0f       	add	r27, r26
+     cb6:	62 1f       	adc	r22, r18
+     cb8:	73 1f       	adc	r23, r19
+     cba:	84 1f       	adc	r24, r20
+     cbc:	48 f4       	brcc	.+18     	; 0xcd0 <__addsf3x+0x98>
+     cbe:	87 95       	ror	r24
+     cc0:	77 95       	ror	r23
+     cc2:	67 95       	ror	r22
+     cc4:	b7 95       	ror	r27
+     cc6:	f7 95       	ror	r31
+     cc8:	9e 3f       	cpi	r25, 0xFE	; 254
+     cca:	08 f0       	brcs	.+2      	; 0xcce <__addsf3x+0x96>
+     ccc:	b3 cf       	rjmp	.-154    	; 0xc34 <__addsf3+0x1e>
+     cce:	93 95       	inc	r25
+     cd0:	88 0f       	add	r24, r24
+     cd2:	08 f0       	brcs	.+2      	; 0xcd6 <__addsf3x+0x9e>
+     cd4:	99 27       	eor	r25, r25
+     cd6:	ee 0f       	add	r30, r30
+     cd8:	97 95       	ror	r25
+     cda:	87 95       	ror	r24
+     cdc:	08 95       	ret
+
+00000cde <__divsf3>:
+     cde:	0c d0       	rcall	.+24     	; 0xcf8 <__divsf3x>
+     ce0:	eb c0       	rjmp	.+470    	; 0xeb8 <__fp_round>
+     ce2:	e3 d0       	rcall	.+454    	; 0xeaa <__fp_pscB>
+     ce4:	40 f0       	brcs	.+16     	; 0xcf6 <__divsf3+0x18>
+     ce6:	da d0       	rcall	.+436    	; 0xe9c <__fp_pscA>
+     ce8:	30 f0       	brcs	.+12     	; 0xcf6 <__divsf3+0x18>
+     cea:	21 f4       	brne	.+8      	; 0xcf4 <__divsf3+0x16>
+     cec:	5f 3f       	cpi	r21, 0xFF	; 255
+     cee:	19 f0       	breq	.+6      	; 0xcf6 <__divsf3+0x18>
+     cf0:	cc c0       	rjmp	.+408    	; 0xe8a <__fp_inf>
+     cf2:	51 11       	cpse	r21, r1
+     cf4:	15 c1       	rjmp	.+554    	; 0xf20 <__fp_szero>
+     cf6:	cf c0       	rjmp	.+414    	; 0xe96 <__fp_nan>
+
+00000cf8 <__divsf3x>:
+     cf8:	f0 d0       	rcall	.+480    	; 0xeda <__fp_split3>
+     cfa:	98 f3       	brcs	.-26     	; 0xce2 <__divsf3+0x4>
+
+00000cfc <__divsf3_pse>:
+     cfc:	99 23       	and	r25, r25
+     cfe:	c9 f3       	breq	.-14     	; 0xcf2 <__divsf3+0x14>
+     d00:	55 23       	and	r21, r21
+     d02:	b1 f3       	breq	.-20     	; 0xcf0 <__divsf3+0x12>
+     d04:	95 1b       	sub	r25, r21
+     d06:	55 0b       	sbc	r21, r21
+     d08:	bb 27       	eor	r27, r27
+     d0a:	aa 27       	eor	r26, r26
+     d0c:	62 17       	cp	r22, r18
+     d0e:	73 07       	cpc	r23, r19
+     d10:	84 07       	cpc	r24, r20
+     d12:	38 f0       	brcs	.+14     	; 0xd22 <__divsf3_pse+0x26>
+     d14:	9f 5f       	subi	r25, 0xFF	; 255
+     d16:	5f 4f       	sbci	r21, 0xFF	; 255
+     d18:	22 0f       	add	r18, r18
+     d1a:	33 1f       	adc	r19, r19
+     d1c:	44 1f       	adc	r20, r20
+     d1e:	aa 1f       	adc	r26, r26
+     d20:	a9 f3       	breq	.-22     	; 0xd0c <__divsf3_pse+0x10>
+     d22:	33 d0       	rcall	.+102    	; 0xd8a <__divsf3_pse+0x8e>
+     d24:	0e 2e       	mov	r0, r30
+     d26:	3a f0       	brmi	.+14     	; 0xd36 <__divsf3_pse+0x3a>
+     d28:	e0 e8       	ldi	r30, 0x80	; 128
+     d2a:	30 d0       	rcall	.+96     	; 0xd8c <__divsf3_pse+0x90>
+     d2c:	91 50       	subi	r25, 0x01	; 1
+     d2e:	50 40       	sbci	r21, 0x00	; 0
+     d30:	e6 95       	lsr	r30
+     d32:	00 1c       	adc	r0, r0
+     d34:	ca f7       	brpl	.-14     	; 0xd28 <__divsf3_pse+0x2c>
+     d36:	29 d0       	rcall	.+82     	; 0xd8a <__divsf3_pse+0x8e>
+     d38:	fe 2f       	mov	r31, r30
+     d3a:	27 d0       	rcall	.+78     	; 0xd8a <__divsf3_pse+0x8e>
+     d3c:	66 0f       	add	r22, r22
+     d3e:	77 1f       	adc	r23, r23
+     d40:	88 1f       	adc	r24, r24
+     d42:	bb 1f       	adc	r27, r27
+     d44:	26 17       	cp	r18, r22
+     d46:	37 07       	cpc	r19, r23
+     d48:	48 07       	cpc	r20, r24
+     d4a:	ab 07       	cpc	r26, r27
+     d4c:	b0 e8       	ldi	r27, 0x80	; 128
+     d4e:	09 f0       	breq	.+2      	; 0xd52 <__divsf3_pse+0x56>
+     d50:	bb 0b       	sbc	r27, r27
+     d52:	80 2d       	mov	r24, r0
+     d54:	bf 01       	movw	r22, r30
+     d56:	ff 27       	eor	r31, r31
+     d58:	93 58       	subi	r25, 0x83	; 131
+     d5a:	5f 4f       	sbci	r21, 0xFF	; 255
+     d5c:	2a f0       	brmi	.+10     	; 0xd68 <__divsf3_pse+0x6c>
+     d5e:	9e 3f       	cpi	r25, 0xFE	; 254
+     d60:	51 05       	cpc	r21, r1
+     d62:	68 f0       	brcs	.+26     	; 0xd7e <__divsf3_pse+0x82>
+     d64:	92 c0       	rjmp	.+292    	; 0xe8a <__fp_inf>
+     d66:	dc c0       	rjmp	.+440    	; 0xf20 <__fp_szero>
+     d68:	5f 3f       	cpi	r21, 0xFF	; 255
+     d6a:	ec f3       	brlt	.-6      	; 0xd66 <__divsf3_pse+0x6a>
+     d6c:	98 3e       	cpi	r25, 0xE8	; 232
+     d6e:	dc f3       	brlt	.-10     	; 0xd66 <__divsf3_pse+0x6a>
+     d70:	86 95       	lsr	r24
+     d72:	77 95       	ror	r23
+     d74:	67 95       	ror	r22
+     d76:	b7 95       	ror	r27
+     d78:	f7 95       	ror	r31
+     d7a:	9f 5f       	subi	r25, 0xFF	; 255
+     d7c:	c9 f7       	brne	.-14     	; 0xd70 <__divsf3_pse+0x74>
+     d7e:	88 0f       	add	r24, r24
+     d80:	91 1d       	adc	r25, r1
+     d82:	96 95       	lsr	r25
+     d84:	87 95       	ror	r24
+     d86:	97 f9       	bld	r25, 7
+     d88:	08 95       	ret
+     d8a:	e1 e0       	ldi	r30, 0x01	; 1
+     d8c:	66 0f       	add	r22, r22
+     d8e:	77 1f       	adc	r23, r23
+     d90:	88 1f       	adc	r24, r24
+     d92:	bb 1f       	adc	r27, r27
+     d94:	62 17       	cp	r22, r18
+     d96:	73 07       	cpc	r23, r19
+     d98:	84 07       	cpc	r24, r20
+     d9a:	ba 07       	cpc	r27, r26
+     d9c:	20 f0       	brcs	.+8      	; 0xda6 <__divsf3_pse+0xaa>
+     d9e:	62 1b       	sub	r22, r18
+     da0:	73 0b       	sbc	r23, r19
+     da2:	84 0b       	sbc	r24, r20
+     da4:	ba 0b       	sbc	r27, r26
+     da6:	ee 1f       	adc	r30, r30
+     da8:	88 f7       	brcc	.-30     	; 0xd8c <__divsf3_pse+0x90>
+     daa:	e0 95       	com	r30
+     dac:	08 95       	ret
+
+00000dae <__fixsfsi>:
+     dae:	04 d0       	rcall	.+8      	; 0xdb8 <__fixunssfsi>
+     db0:	68 94       	set
+     db2:	b1 11       	cpse	r27, r1
+     db4:	b5 c0       	rjmp	.+362    	; 0xf20 <__fp_szero>
+     db6:	08 95       	ret
+
+00000db8 <__fixunssfsi>:
+     db8:	98 d0       	rcall	.+304    	; 0xeea <__fp_splitA>
+     dba:	88 f0       	brcs	.+34     	; 0xdde <__fixunssfsi+0x26>
+     dbc:	9f 57       	subi	r25, 0x7F	; 127
+     dbe:	90 f0       	brcs	.+36     	; 0xde4 <__fixunssfsi+0x2c>
+     dc0:	b9 2f       	mov	r27, r25
+     dc2:	99 27       	eor	r25, r25
+     dc4:	b7 51       	subi	r27, 0x17	; 23
+     dc6:	a0 f0       	brcs	.+40     	; 0xdf0 <__fixunssfsi+0x38>
+     dc8:	d1 f0       	breq	.+52     	; 0xdfe <__fixunssfsi+0x46>
+     dca:	66 0f       	add	r22, r22
+     dcc:	77 1f       	adc	r23, r23
+     dce:	88 1f       	adc	r24, r24
+     dd0:	99 1f       	adc	r25, r25
+     dd2:	1a f0       	brmi	.+6      	; 0xdda <__fixunssfsi+0x22>
+     dd4:	ba 95       	dec	r27
+     dd6:	c9 f7       	brne	.-14     	; 0xdca <__fixunssfsi+0x12>
+     dd8:	12 c0       	rjmp	.+36     	; 0xdfe <__fixunssfsi+0x46>
+     dda:	b1 30       	cpi	r27, 0x01	; 1
+     ddc:	81 f0       	breq	.+32     	; 0xdfe <__fixunssfsi+0x46>
+     dde:	9f d0       	rcall	.+318    	; 0xf1e <__fp_zero>
+     de0:	b1 e0       	ldi	r27, 0x01	; 1
+     de2:	08 95       	ret
+     de4:	9c c0       	rjmp	.+312    	; 0xf1e <__fp_zero>
+     de6:	67 2f       	mov	r22, r23
+     de8:	78 2f       	mov	r23, r24
+     dea:	88 27       	eor	r24, r24
+     dec:	b8 5f       	subi	r27, 0xF8	; 248
+     dee:	39 f0       	breq	.+14     	; 0xdfe <__fixunssfsi+0x46>
+     df0:	b9 3f       	cpi	r27, 0xF9	; 249
+     df2:	cc f3       	brlt	.-14     	; 0xde6 <__fixunssfsi+0x2e>
+     df4:	86 95       	lsr	r24
+     df6:	77 95       	ror	r23
+     df8:	67 95       	ror	r22
+     dfa:	b3 95       	inc	r27
+     dfc:	d9 f7       	brne	.-10     	; 0xdf4 <__fixunssfsi+0x3c>
+     dfe:	3e f4       	brtc	.+14     	; 0xe0e <__fixunssfsi+0x56>
+     e00:	90 95       	com	r25
+     e02:	80 95       	com	r24
+     e04:	70 95       	com	r23
+     e06:	61 95       	neg	r22
+     e08:	7f 4f       	sbci	r23, 0xFF	; 255
+     e0a:	8f 4f       	sbci	r24, 0xFF	; 255
+     e0c:	9f 4f       	sbci	r25, 0xFF	; 255
+     e0e:	08 95       	ret
+
+00000e10 <__floatunsisf>:
+     e10:	e8 94       	clt
+     e12:	09 c0       	rjmp	.+18     	; 0xe26 <__floatsisf+0x12>
+
+00000e14 <__floatsisf>:
+     e14:	97 fb       	bst	r25, 7
+     e16:	3e f4       	brtc	.+14     	; 0xe26 <__floatsisf+0x12>
+     e18:	90 95       	com	r25
+     e1a:	80 95       	com	r24
+     e1c:	70 95       	com	r23
+     e1e:	61 95       	neg	r22
+     e20:	7f 4f       	sbci	r23, 0xFF	; 255
+     e22:	8f 4f       	sbci	r24, 0xFF	; 255
+     e24:	9f 4f       	sbci	r25, 0xFF	; 255
+     e26:	99 23       	and	r25, r25
+     e28:	a9 f0       	breq	.+42     	; 0xe54 <__floatsisf+0x40>
+     e2a:	f9 2f       	mov	r31, r25
+     e2c:	96 e9       	ldi	r25, 0x96	; 150
+     e2e:	bb 27       	eor	r27, r27
+     e30:	93 95       	inc	r25
+     e32:	f6 95       	lsr	r31
+     e34:	87 95       	ror	r24
+     e36:	77 95       	ror	r23
+     e38:	67 95       	ror	r22
+     e3a:	b7 95       	ror	r27
+     e3c:	f1 11       	cpse	r31, r1
+     e3e:	f8 cf       	rjmp	.-16     	; 0xe30 <__floatsisf+0x1c>
+     e40:	fa f4       	brpl	.+62     	; 0xe80 <__floatsisf+0x6c>
+     e42:	bb 0f       	add	r27, r27
+     e44:	11 f4       	brne	.+4      	; 0xe4a <__floatsisf+0x36>
+     e46:	60 ff       	sbrs	r22, 0
+     e48:	1b c0       	rjmp	.+54     	; 0xe80 <__floatsisf+0x6c>
+     e4a:	6f 5f       	subi	r22, 0xFF	; 255
+     e4c:	7f 4f       	sbci	r23, 0xFF	; 255
+     e4e:	8f 4f       	sbci	r24, 0xFF	; 255
+     e50:	9f 4f       	sbci	r25, 0xFF	; 255
+     e52:	16 c0       	rjmp	.+44     	; 0xe80 <__floatsisf+0x6c>
+     e54:	88 23       	and	r24, r24
+     e56:	11 f0       	breq	.+4      	; 0xe5c <__floatsisf+0x48>
+     e58:	96 e9       	ldi	r25, 0x96	; 150
+     e5a:	11 c0       	rjmp	.+34     	; 0xe7e <__floatsisf+0x6a>
+     e5c:	77 23       	and	r23, r23
+     e5e:	21 f0       	breq	.+8      	; 0xe68 <__floatsisf+0x54>
+     e60:	9e e8       	ldi	r25, 0x8E	; 142
+     e62:	87 2f       	mov	r24, r23
+     e64:	76 2f       	mov	r23, r22
+     e66:	05 c0       	rjmp	.+10     	; 0xe72 <__floatsisf+0x5e>
+     e68:	66 23       	and	r22, r22
+     e6a:	71 f0       	breq	.+28     	; 0xe88 <__floatsisf+0x74>
+     e6c:	96 e8       	ldi	r25, 0x86	; 134
+     e6e:	86 2f       	mov	r24, r22
+     e70:	70 e0       	ldi	r23, 0x00	; 0
+     e72:	60 e0       	ldi	r22, 0x00	; 0
+     e74:	2a f0       	brmi	.+10     	; 0xe80 <__floatsisf+0x6c>
+     e76:	9a 95       	dec	r25
+     e78:	66 0f       	add	r22, r22
+     e7a:	77 1f       	adc	r23, r23
+     e7c:	88 1f       	adc	r24, r24
+     e7e:	da f7       	brpl	.-10     	; 0xe76 <__floatsisf+0x62>
+     e80:	88 0f       	add	r24, r24
+     e82:	96 95       	lsr	r25
+     e84:	87 95       	ror	r24
+     e86:	97 f9       	bld	r25, 7
+     e88:	08 95       	ret
+
+00000e8a <__fp_inf>:
+     e8a:	97 f9       	bld	r25, 7
+     e8c:	9f 67       	ori	r25, 0x7F	; 127
+     e8e:	80 e8       	ldi	r24, 0x80	; 128
+     e90:	70 e0       	ldi	r23, 0x00	; 0
+     e92:	60 e0       	ldi	r22, 0x00	; 0
+     e94:	08 95       	ret
+
+00000e96 <__fp_nan>:
+     e96:	9f ef       	ldi	r25, 0xFF	; 255
+     e98:	80 ec       	ldi	r24, 0xC0	; 192
+     e9a:	08 95       	ret
+
+00000e9c <__fp_pscA>:
+     e9c:	00 24       	eor	r0, r0
+     e9e:	0a 94       	dec	r0
+     ea0:	16 16       	cp	r1, r22
+     ea2:	17 06       	cpc	r1, r23
+     ea4:	18 06       	cpc	r1, r24
+     ea6:	09 06       	cpc	r0, r25
+     ea8:	08 95       	ret
+
+00000eaa <__fp_pscB>:
+     eaa:	00 24       	eor	r0, r0
+     eac:	0a 94       	dec	r0
+     eae:	12 16       	cp	r1, r18
+     eb0:	13 06       	cpc	r1, r19
+     eb2:	14 06       	cpc	r1, r20
+     eb4:	05 06       	cpc	r0, r21
+     eb6:	08 95       	ret
+
+00000eb8 <__fp_round>:
+     eb8:	09 2e       	mov	r0, r25
+     eba:	03 94       	inc	r0
+     ebc:	00 0c       	add	r0, r0
+     ebe:	11 f4       	brne	.+4      	; 0xec4 <__fp_round+0xc>
+     ec0:	88 23       	and	r24, r24
+     ec2:	52 f0       	brmi	.+20     	; 0xed8 <__fp_round+0x20>
+     ec4:	bb 0f       	add	r27, r27
+     ec6:	40 f4       	brcc	.+16     	; 0xed8 <__fp_round+0x20>
+     ec8:	bf 2b       	or	r27, r31
+     eca:	11 f4       	brne	.+4      	; 0xed0 <__fp_round+0x18>
+     ecc:	60 ff       	sbrs	r22, 0
+     ece:	04 c0       	rjmp	.+8      	; 0xed8 <__fp_round+0x20>
+     ed0:	6f 5f       	subi	r22, 0xFF	; 255
+     ed2:	7f 4f       	sbci	r23, 0xFF	; 255
+     ed4:	8f 4f       	sbci	r24, 0xFF	; 255
+     ed6:	9f 4f       	sbci	r25, 0xFF	; 255
+     ed8:	08 95       	ret
+
+00000eda <__fp_split3>:
+     eda:	57 fd       	sbrc	r21, 7
+     edc:	90 58       	subi	r25, 0x80	; 128
+     ede:	44 0f       	add	r20, r20
+     ee0:	55 1f       	adc	r21, r21
+     ee2:	59 f0       	breq	.+22     	; 0xefa <__fp_splitA+0x10>
+     ee4:	5f 3f       	cpi	r21, 0xFF	; 255
+     ee6:	71 f0       	breq	.+28     	; 0xf04 <__fp_splitA+0x1a>
+     ee8:	47 95       	ror	r20
+
+00000eea <__fp_splitA>:
+     eea:	88 0f       	add	r24, r24
+     eec:	97 fb       	bst	r25, 7
+     eee:	99 1f       	adc	r25, r25
+     ef0:	61 f0       	breq	.+24     	; 0xf0a <__fp_splitA+0x20>
+     ef2:	9f 3f       	cpi	r25, 0xFF	; 255
+     ef4:	79 f0       	breq	.+30     	; 0xf14 <__fp_splitA+0x2a>
+     ef6:	87 95       	ror	r24
+     ef8:	08 95       	ret
+     efa:	12 16       	cp	r1, r18
+     efc:	13 06       	cpc	r1, r19
+     efe:	14 06       	cpc	r1, r20
+     f00:	55 1f       	adc	r21, r21
+     f02:	f2 cf       	rjmp	.-28     	; 0xee8 <__fp_split3+0xe>
+     f04:	46 95       	lsr	r20
+     f06:	f1 df       	rcall	.-30     	; 0xeea <__fp_splitA>
+     f08:	08 c0       	rjmp	.+16     	; 0xf1a <__fp_splitA+0x30>
+     f0a:	16 16       	cp	r1, r22
+     f0c:	17 06       	cpc	r1, r23
+     f0e:	18 06       	cpc	r1, r24
+     f10:	99 1f       	adc	r25, r25
+     f12:	f1 cf       	rjmp	.-30     	; 0xef6 <__fp_splitA+0xc>
+     f14:	86 95       	lsr	r24
+     f16:	71 05       	cpc	r23, r1
+     f18:	61 05       	cpc	r22, r1
+     f1a:	08 94       	sec
+     f1c:	08 95       	ret
+
+00000f1e <__fp_zero>:
+     f1e:	e8 94       	clt
+
+00000f20 <__fp_szero>:
+     f20:	bb 27       	eor	r27, r27
+     f22:	66 27       	eor	r22, r22
+     f24:	77 27       	eor	r23, r23
+     f26:	cb 01       	movw	r24, r22
+     f28:	97 f9       	bld	r25, 7
+     f2a:	08 95       	ret
+
+00000f2c <__gesf2>:
+     f2c:	66 d0       	rcall	.+204    	; 0xffa <__fp_cmp>
+     f2e:	08 f4       	brcc	.+2      	; 0xf32 <__gesf2+0x6>
+     f30:	8f ef       	ldi	r24, 0xFF	; 255
+     f32:	08 95       	ret
+
+00000f34 <__mulsf3>:
+     f34:	0b d0       	rcall	.+22     	; 0xf4c <__mulsf3x>
+     f36:	c0 cf       	rjmp	.-128    	; 0xeb8 <__fp_round>
+     f38:	b1 df       	rcall	.-158    	; 0xe9c <__fp_pscA>
+     f3a:	28 f0       	brcs	.+10     	; 0xf46 <__mulsf3+0x12>
+     f3c:	b6 df       	rcall	.-148    	; 0xeaa <__fp_pscB>
+     f3e:	18 f0       	brcs	.+6      	; 0xf46 <__mulsf3+0x12>
+     f40:	95 23       	and	r25, r21
+     f42:	09 f0       	breq	.+2      	; 0xf46 <__mulsf3+0x12>
+     f44:	a2 cf       	rjmp	.-188    	; 0xe8a <__fp_inf>
+     f46:	a7 cf       	rjmp	.-178    	; 0xe96 <__fp_nan>
+     f48:	11 24       	eor	r1, r1
+     f4a:	ea cf       	rjmp	.-44     	; 0xf20 <__fp_szero>
+
+00000f4c <__mulsf3x>:
+     f4c:	c6 df       	rcall	.-116    	; 0xeda <__fp_split3>
+     f4e:	a0 f3       	brcs	.-24     	; 0xf38 <__mulsf3+0x4>
+
+00000f50 <__mulsf3_pse>:
+     f50:	95 9f       	mul	r25, r21
+     f52:	d1 f3       	breq	.-12     	; 0xf48 <__mulsf3+0x14>
+     f54:	95 0f       	add	r25, r21
+     f56:	50 e0       	ldi	r21, 0x00	; 0
+     f58:	55 1f       	adc	r21, r21
+     f5a:	62 9f       	mul	r22, r18
+     f5c:	f0 01       	movw	r30, r0
+     f5e:	72 9f       	mul	r23, r18
+     f60:	bb 27       	eor	r27, r27
+     f62:	f0 0d       	add	r31, r0
+     f64:	b1 1d       	adc	r27, r1
+     f66:	63 9f       	mul	r22, r19
+     f68:	aa 27       	eor	r26, r26
+     f6a:	f0 0d       	add	r31, r0
+     f6c:	b1 1d       	adc	r27, r1
+     f6e:	aa 1f       	adc	r26, r26
+     f70:	64 9f       	mul	r22, r20
+     f72:	66 27       	eor	r22, r22
+     f74:	b0 0d       	add	r27, r0
+     f76:	a1 1d       	adc	r26, r1
+     f78:	66 1f       	adc	r22, r22
+     f7a:	82 9f       	mul	r24, r18
+     f7c:	22 27       	eor	r18, r18
+     f7e:	b0 0d       	add	r27, r0
+     f80:	a1 1d       	adc	r26, r1
+     f82:	62 1f       	adc	r22, r18
+     f84:	73 9f       	mul	r23, r19
+     f86:	b0 0d       	add	r27, r0
+     f88:	a1 1d       	adc	r26, r1
+     f8a:	62 1f       	adc	r22, r18
+     f8c:	83 9f       	mul	r24, r19
+     f8e:	a0 0d       	add	r26, r0
+     f90:	61 1d       	adc	r22, r1
+     f92:	22 1f       	adc	r18, r18
+     f94:	74 9f       	mul	r23, r20
+     f96:	33 27       	eor	r19, r19
+     f98:	a0 0d       	add	r26, r0
+     f9a:	61 1d       	adc	r22, r1
+     f9c:	23 1f       	adc	r18, r19
+     f9e:	84 9f       	mul	r24, r20
+     fa0:	60 0d       	add	r22, r0
+     fa2:	21 1d       	adc	r18, r1
+     fa4:	82 2f       	mov	r24, r18
+     fa6:	76 2f       	mov	r23, r22
+     fa8:	6a 2f       	mov	r22, r26
+     faa:	11 24       	eor	r1, r1
+     fac:	9f 57       	subi	r25, 0x7F	; 127
+     fae:	50 40       	sbci	r21, 0x00	; 0
+     fb0:	8a f0       	brmi	.+34     	; 0xfd4 <__mulsf3_pse+0x84>
+     fb2:	e1 f0       	breq	.+56     	; 0xfec <__mulsf3_pse+0x9c>
+     fb4:	88 23       	and	r24, r24
+     fb6:	4a f0       	brmi	.+18     	; 0xfca <__mulsf3_pse+0x7a>
+     fb8:	ee 0f       	add	r30, r30
+     fba:	ff 1f       	adc	r31, r31
+     fbc:	bb 1f       	adc	r27, r27
+     fbe:	66 1f       	adc	r22, r22
+     fc0:	77 1f       	adc	r23, r23
+     fc2:	88 1f       	adc	r24, r24
+     fc4:	91 50       	subi	r25, 0x01	; 1
+     fc6:	50 40       	sbci	r21, 0x00	; 0
+     fc8:	a9 f7       	brne	.-22     	; 0xfb4 <__mulsf3_pse+0x64>
+     fca:	9e 3f       	cpi	r25, 0xFE	; 254
+     fcc:	51 05       	cpc	r21, r1
+     fce:	70 f0       	brcs	.+28     	; 0xfec <__mulsf3_pse+0x9c>
+     fd0:	5c cf       	rjmp	.-328    	; 0xe8a <__fp_inf>
+     fd2:	a6 cf       	rjmp	.-180    	; 0xf20 <__fp_szero>
+     fd4:	5f 3f       	cpi	r21, 0xFF	; 255
+     fd6:	ec f3       	brlt	.-6      	; 0xfd2 <__mulsf3_pse+0x82>
+     fd8:	98 3e       	cpi	r25, 0xE8	; 232
+     fda:	dc f3       	brlt	.-10     	; 0xfd2 <__mulsf3_pse+0x82>
+     fdc:	86 95       	lsr	r24
+     fde:	77 95       	ror	r23
+     fe0:	67 95       	ror	r22
+     fe2:	b7 95       	ror	r27
+     fe4:	f7 95       	ror	r31
+     fe6:	e7 95       	ror	r30
+     fe8:	9f 5f       	subi	r25, 0xFF	; 255
+     fea:	c1 f7       	brne	.-16     	; 0xfdc <__mulsf3_pse+0x8c>
+     fec:	fe 2b       	or	r31, r30
+     fee:	88 0f       	add	r24, r24
+     ff0:	91 1d       	adc	r25, r1
+     ff2:	96 95       	lsr	r25
+     ff4:	87 95       	ror	r24
+     ff6:	97 f9       	bld	r25, 7
+     ff8:	08 95       	ret
+
+00000ffa <__fp_cmp>:
+     ffa:	99 0f       	add	r25, r25
+     ffc:	00 08       	sbc	r0, r0
+     ffe:	55 0f       	add	r21, r21
+    1000:	aa 0b       	sbc	r26, r26
+    1002:	e0 e8       	ldi	r30, 0x80	; 128
+    1004:	fe ef       	ldi	r31, 0xFE	; 254
+    1006:	16 16       	cp	r1, r22
+    1008:	17 06       	cpc	r1, r23
+    100a:	e8 07       	cpc	r30, r24
+    100c:	f9 07       	cpc	r31, r25
+    100e:	c0 f0       	brcs	.+48     	; 0x1040 <__fp_cmp+0x46>
+    1010:	12 16       	cp	r1, r18
+    1012:	13 06       	cpc	r1, r19
+    1014:	e4 07       	cpc	r30, r20
+    1016:	f5 07       	cpc	r31, r21
+    1018:	98 f0       	brcs	.+38     	; 0x1040 <__fp_cmp+0x46>
+    101a:	62 1b       	sub	r22, r18
+    101c:	73 0b       	sbc	r23, r19
+    101e:	84 0b       	sbc	r24, r20
+    1020:	95 0b       	sbc	r25, r21
+    1022:	39 f4       	brne	.+14     	; 0x1032 <__fp_cmp+0x38>
+    1024:	0a 26       	eor	r0, r26
+    1026:	61 f0       	breq	.+24     	; 0x1040 <__fp_cmp+0x46>
+    1028:	23 2b       	or	r18, r19
+    102a:	24 2b       	or	r18, r20
+    102c:	25 2b       	or	r18, r21
+    102e:	21 f4       	brne	.+8      	; 0x1038 <__fp_cmp+0x3e>
+    1030:	08 95       	ret
+    1032:	0a 26       	eor	r0, r26
+    1034:	09 f4       	brne	.+2      	; 0x1038 <__fp_cmp+0x3e>
+    1036:	a1 40       	sbci	r26, 0x01	; 1
+    1038:	a6 95       	lsr	r26
+    103a:	8f ef       	ldi	r24, 0xFF	; 255
+    103c:	81 1d       	adc	r24, r1
+    103e:	81 1d       	adc	r24, r1
+    1040:	08 95       	ret
+
+00001042 <_exit>:
+    1042:	f8 94       	cli
+
+00001044 <__stop_program>:
+    1044:	ff cf       	rjmp	.-2      	; 0x1044 <__stop_program>
