@@ -9,31 +9,17 @@
 #ifndef PRESETS_H_
 #define PRESETS_H_
 
-#include <stdbool.h>
+#define PRESET_COUNT 8
 
-#define FLOODLIGHT_COUNT 2
-#define LASER_COUNT 3
-#define STATUSNOTIFY_COUNT 3
+void Preset_On(double, uint8_t);
+void Preset_Spin(double, uint8_t);
+void Preset_Bounce(double, uint8_t);
+void Preset_Flash(double, uint8_t);
+void Preset_Corrected(double, uint8_t);
+void Preset_Alert(double, uint8_t);
+void Preset_Warning(double, uint8_t);
+void Preset_Danger(double, uint8_t);
 
-#define STRUT_COUNT 8
-
-struct PresetState {
-	bool EnableUtilityAlteration;
-	
-	unsigned char Floodlights[FLOODLIGHT_COUNT];
-	unsigned char Lasers[LASER_COUNT];
-	unsigned char StatusNotify[STATUSNOTIFY_COUNT];
-	
-	struct {
-		bool R;
-		bool G;
-		bool B;
-	} Emphasis;
-	struct {
-		bool R;
-		bool G;
-		bool B;
-	} Support;
-};
+extern void (*PRESETS)(double, uint8_t)[PRESET_COUNT];
 
 #endif /* PRESETS_H_ */
