@@ -9,16 +9,21 @@
 #ifndef PRESETS_H_
 #define PRESETS_H_
 
+#include "Manager.h"
+
 #define PRESET_COUNT 8
 
-void Preset_On(double, uint8_t);
-void Preset_Spin(double, uint8_t);
-void Preset_Bounce(double, uint8_t);
-void Preset_Flash(double, uint8_t);
-void Preset_Corrected(double, uint8_t);
-void Preset_Alert(double, uint8_t);
-void Preset_Warning(double, uint8_t);
-void Preset_Danger(double, uint8_t);
+#define PRESET_ON_DURATION 3.0
+#define PRESET_ON_PERIOD 0.5
+
+void Preset_On(double, uint8_t *);
+void Preset_Spin(double, uint8_t *);
+void Preset_Bounce(double, uint8_t *);
+void Preset_Flash(double, uint8_t *);
+void Preset_Corrected(double, uint8_t *);
+void Preset_Alert(double, uint8_t *);
+void Preset_Warning(double, uint8_t *);
+void Preset_Danger(double, uint8_t *);
 
 extern void (*PRESETS)(double, uint8_t)[PRESET_COUNT];
 

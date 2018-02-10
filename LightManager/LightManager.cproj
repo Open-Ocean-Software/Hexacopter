@@ -141,6 +141,9 @@
     <Compile Include="PinLabels.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Presets\Presets.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Presets\Presets.h">
       <SubType>compile</SubType>
     </Compile>
