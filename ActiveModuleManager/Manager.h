@@ -9,7 +9,9 @@
 #ifndef MANAGER_H_
 #define MANAGER_H_
 
+#include "PinLabels.h"
 
+void InitializeManager(void);
 
 
 

@@ -4,3 +4,24 @@
  * Created: 02/08/2018 9:13:29 PM
  *  Author: nichh
  */ 
+
+
+void InitializeManager(void)
+{
+	uint8_t servos = (1 << GIMBALX) | (1 << GIMBALY) | (1 << GIMBALZ) | (1 << LANDINGGEAR) | (1 << THERMSWIVELX) | (1 << THERMSWIVELY);
+	//Enable servos pins for output
+	SERVOREG |= servos;
+	//Turn off all servo pins
+	SERVOPORT &= ~servos;
+	
+	uint8_t winch = (1 << WINCHPOS) | (1 << WINCHNEG);
+	//Enable winch pins for output
+	WINCHREG |= winch;
+	//Turn off winch pins
+	WINCHPORT &= ~winch;
+	
+	winch = (1 << WINCHINT);
+	//Enable winch interrupt for input
+	WINCHREG &= ~winch;
+	
+}
