@@ -9,6 +9,12 @@
 #ifndef PINLABELS_H_
 #define PINLABELS_H_
 
+#include <avr/io.h>
+
+#ifndef F_CPU
+#define F_CPU 16000000UL //16MHz Clock Speed
+#endif
+
 
 
 
