@@ -24,4 +24,21 @@ void InitializeManager(void)
 	//Enable winch interrupt for input
 	WINCHREG &= ~winch;
 	
+	uint8_t notify = (1 << PROJLAUNCHNOTIFY) | (1 << WINCHACTIVENOTIFY) | (1 << LANDINGGEARACTIVENOTIFY) | (1 << PIEZOBUZZER);
+	//Enable notify pins for output
+	NOTIFYREG |= notify;
+	//Turn off all notify pins
+	NOTIFYPORT &= ~notify;
+	
+	uint8_t shiftregset = (1 << PROJSHIFTREGSET) | (1 << ACCESSORYSHIFTREGSET);
+	//Enable shift register set pins for output
+	SHIFTREGSETREG |= shiftregset;
+	//Turn off all shift register set pins
+	SHIFTREGSETPORT &= ~shiftregset;
+	
+	uint8_t shiftregdata = (1 << SHIFTREGDATA);
+	//Enable shift register data pins for output
+	SHIFTREGDATAREG |= shiftregdata;
+	//Turn off all shift register data pins
+	SHIFTREGDATAPORT &= ~shiftregdata;
 }
