@@ -41,4 +41,70 @@ void InitializeManager(void)
 	SHIFTREGDATAREG |= shiftregdata;
 	//Turn off all shift register data pins
 	SHIFTREGDATAPORT &= ~shiftregdata;
+	
+	//Set initial duty cycle period
+	DutyCyclePeriod = (unsigned int)(1.0f / ((float)DEFAULTDUTYFREQUENCY) * 1000.0f);
 }
+
+struct PulseRegister *FindPulseModule(enum RegisterId rid, unsigned char num)
+{
+	for(uint8_t i = 0; i < PULSE_MODULE_COUNT; i++)
+	{
+		if(PulseModules[i].RID == rid && PulseModules[i].RegisterNumber == num)
+		{
+			return &PulseModules[i];
+		}
+	}
+};
+
+unsigned char ConvertAlphaToDuty(unsigned char alpha)
+{
+	return (unsigned char)(((float)alpha / 255.0f) * (float)DutyCyclePeriod);
+}
+
+void ToggleGimbal(unsigned char x, unsigned char y, unsigned char z)
+{
+	struct PulseRegister *gimbalxreg = FindPulseModule(RIDC, GIMBALX);
+	(*gimbalxreg).Save.Alpha = (*gimbalxreg).Alpha;
+	(*gimbalxreg).Save.DutyCycle = (*gimbalxreg).DutyCycle;
+	(*gimbalxreg).Alpha = x;
+	(*gimbalxreg).DutyCycle = ConvertAlphaToDuty(x);
+	
+	//... Change to functions?
+}
+
+enum RegisterId
+{
+	RIDB,
+	RIDC,
+	RIDD
+};
+
+struct PulseRegister
+{
+	enum RegisterId RID;
+	unsigned char RegisterNumber;
+	unsigned char Alpha;
+	unsigned char DutyCycle;
+	
+	struct PulseRegisterSave Save;
+};
+struct PulseRegisterSave
+{
+	unsigned char Alpha;
+	unsigned char DutyCycle;	
+};
+
+
+#define PULSE_MODULE_COUNT 3
+#define DEFAULTDUTYFREQUENCY 60
+#define MINDUTYFREQUENCY 4
+#define MAXDUTYFREQUENCY 500
+unsigned int DutyCyclePeriod = 0; //Must be more than 4Hz and less than 500Hz.  Default is 60Hz
+
+
+struct PulseRegister PulseModules[3] = {
+	{RIDC, GIMBALX, 0x00, 0, {0x00, 0}},
+	{RIDC, GIMBALY, 0x00, 0, {0x00, 0}},
+	{RIDC, GIMBALZ, 0x00, 0, {0x00, 0}}
+};
