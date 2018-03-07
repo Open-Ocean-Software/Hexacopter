@@ -4,7 +4,17 @@
  * Created: 02/08/2018 9:13:29 PM
  *  Author: nichh
  */ 
+#include "Manager.h"
 
+struct PulseRegister PulseModules[3] = {
+	{RIDC, GIMBALX, 0x00, 0, {0x00, 0}},
+	{RIDC, GIMBALY, 0x00, 0, {0x00, 0}},
+	{RIDC, GIMBALZ, 0x00, 0, {0x00, 0}},
+	{RIDC, THERMSWIVELX, 0x00, 0, {0x00, 0}},
+	{RIDC, THERMSWIVELY, 0x00, 0, {0x00, 0}},
+	{RIDC, LANDINGGEAR, 0x00, 0, {0x00, 0}},
+	{RIDD, PIEZOBUZZER, 0x00, 0, {0x00, 0}}
+};
 
 void InitializeManager(void)
 {
@@ -46,6 +56,8 @@ void InitializeManager(void)
 	DutyCyclePeriod = (unsigned int)(1.0f / ((float)DEFAULTDUTYFREQUENCY) * 1000.0f);
 }
 
+
+
 struct PulseRegister *FindPulseModule(enum RegisterId rid, unsigned char num)
 {
 	for(uint8_t i = 0; i < PULSE_MODULE_COUNT; i++)
@@ -55,56 +67,118 @@ struct PulseRegister *FindPulseModule(enum RegisterId rid, unsigned char num)
 			return &PulseModules[i];
 		}
 	}
-};
+}
+
+void ChangePulseRegister(enum RegisterId rid, unsigned char num, unsigned char val)
+{
+	struct PulseRegister *reg = FindPulseModule(rid, num);
+	(*reg).Save.Alpha = (*reg).Alpha;
+	(*reg).Save.DutyCycle = (*reg).DutyCycle;
+	(*reg).Alpha = val;
+	(*reg).DutyCycle = ConvertAlphaToDuty(val);
+}
 
 unsigned char ConvertAlphaToDuty(unsigned char alpha)
 {
 	return (unsigned char)(((float)alpha / 255.0f) * (float)DutyCyclePeriod);
 }
 
+
+
 void ToggleGimbal(unsigned char x, unsigned char y, unsigned char z)
 {
-	struct PulseRegister *gimbalxreg = FindPulseModule(RIDC, GIMBALX);
-	(*gimbalxreg).Save.Alpha = (*gimbalxreg).Alpha;
-	(*gimbalxreg).Save.DutyCycle = (*gimbalxreg).DutyCycle;
-	(*gimbalxreg).Alpha = x;
-	(*gimbalxreg).DutyCycle = ConvertAlphaToDuty(x);
-	
-	//... Change to functions?
+	ChangePulseRegister(RIDC, GIMBALX, x);
+	ChangePulseRegister(RIDC, GIMBALY, y);
+	ChangePulseRegister(RIDC, GIMBALZ, z);
 }
 
-enum RegisterId
+void ToggleThermalSwivel(unsigned char x, unsigned char y)
 {
-	RIDB,
-	RIDC,
-	RIDD
-};
+	ChangePulseRegister(RIDC, THERMSWIVELX, x);
+	ChangePulseRegister(RIDC, THERMSWIVELY, y);
+}
 
-struct PulseRegister
+void ToggleLandingGear(unsigned char a)
 {
-	enum RegisterId RID;
-	unsigned char RegisterNumber;
-	unsigned char Alpha;
-	unsigned char DutyCycle;
+	ChangePulseRegister(RIDC, LANDINGGEAR, a);
+}
+
+void TogglePiezo(unsigned char a)
+{
+	ChangePulseRegister(RIDD, PIEZOBUZZER, a);
+}
+
+void ToggleWinch(uint8_t flagval)
+{
+	if((flagval & FLAG0) == FLAG0)
+	{
+		WINCHPORT |= WINCHPOS;
+	}
+	else
+	{
+		WINCHPORT &= ~WINCHPOS;
+	}
 	
-	struct PulseRegisterSave Save;
-};
-struct PulseRegisterSave
+	if((flagval & FLAG1) == FLAG1)
+	{
+		WINCHPORT |= WINCHNEG;
+	}
+	else
+	{
+		WINCHPORT &= ~WINCHNEG;
+	}
+}
+
+
+void ToggleProjectileNotify(uint8_t flagval)
 {
-	unsigned char Alpha;
-	unsigned char DutyCycle;	
-};
+	if((flagval & FLAG0) == FLAG0)
+	{
+		NOTIFYPORT |= PROJLAUNCHNOTIFY;
+	}
+	else
+	{
+		NOTIFYPORT &= ~PROJLAUNCHNOTIFY;
+	}
+}
+
+void ToggleWinchNotify(uint8_t flagval)
+{
+	if((flagval & FLAG0) == FLAG0)
+	{
+		NOTIFYPORT |= WINCHACTIVENOTIFY;
+	}
+	else
+	{
+		NOTIFYPORT &= ~WINCHACTIVENOTIFY;	
+	}
+}
+
+void ToggleLandingGearNotify(uint8_t flagval)
+{
+	if((flagval & FLAG0) == FLAG0)
+	{
+		NOTIFYPORT |= LANDINGGEARACTIVENOTIFY;
+	}
+	else
+	{
+		NOTIFYPORT &= ~LANDINGGEARACTIVENOTIFY;
+	}
+}
 
 
-#define PULSE_MODULE_COUNT 3
-#define DEFAULTDUTYFREQUENCY 60
-#define MINDUTYFREQUENCY 4
-#define MAXDUTYFREQUENCY 500
-unsigned int DutyCyclePeriod = 0; //Must be more than 4Hz and less than 500Hz.  Default is 60Hz
+void ToggleLaunchRegister(uint8_t flagval)
+{
+	
+}
+
+void ToggleAccessoryRegister(uint8_t flagval)
+{
+	
+}
 
 
-struct PulseRegister PulseModules[3] = {
-	{RIDC, GIMBALX, 0x00, 0, {0x00, 0}},
-	{RIDC, GIMBALY, 0x00, 0, {0x00, 0}},
-	{RIDC, GIMBALZ, 0x00, 0, {0x00, 0}}
-};
+void HandlePulseRegisters(double elapsedtime)
+{
+	
+}
