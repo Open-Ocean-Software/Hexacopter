@@ -19,13 +19,13 @@
 //////////////////////////////////////////////////////////////////////////
 // Constants
 //////////////////////////////////////////////////////////////////////////
-#define PULSE_MODULE_COUNT 7
+#define PULSE_MODULE_COUNT 7		//The total count of the PulseModules array
 
-#define DEFAULTDUTYFREQUENCY 60
-#define MINDUTYFREQUENCY 4
-#define MAXDUTYFREQUENCY 500
+#define DEFAULTDUTYFREQUENCY 60		//The original Duty Cycle Frequency or the inverse of DutyCyclePeriod (Hz) - Note: assigned in function Initialize
+#define MINDUTYFREQUENCY 4			//The absolute minimum Duty Cycle Frequency (Hz)
+#define MAXDUTYFREQUENCY 500		//The absolute maxumum Duty Cycle Frequency (Hz)
 
-#define SHIFTREG_TRANSPERIOD 3
+#define SHIFTREG_TRANSPERIOD 3		//The transition period for setting each bit in the shift register (ms)
 
 //////////////////////////////////////////////////////////////////////////
 // Externals
@@ -33,7 +33,7 @@
 /**
  * The duty cycle resolution of all pulse width related modules.
  */
-extern unsigned int DutyCyclePeriod = 0; //Must be more than 4Hz and less than 500Hz.  Default is 60Hz
+extern unsigned int DutyCyclePeriod; //Must be more than 4Hz and less than 500Hz.  Default is 60Hz
 
 /**
  * Contains all pulse width modules.

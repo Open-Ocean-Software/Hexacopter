@@ -27,7 +27,7 @@ unsigned int DutyCyclePeriod = 0;
 
 
 //////////////////////////////////////////////////////////////////////////
-// Manager Functions
+// System Controls
 //////////////////////////////////////////////////////////////////////////
 void InitializeManager(void)
 {
@@ -95,7 +95,15 @@ unsigned char ConvertAlphaToDuty(unsigned char alpha)
 }
 
 
+void HandlePulseRegisters(double elapsedtime)
+{
+	//TODO: Implement
+}
 
+
+//////////////////////////////////////////////////////////////////////////
+// Pulse Module Controls
+//////////////////////////////////////////////////////////////////////////
 void ToggleGimbal(unsigned char x, unsigned char y, unsigned char z)
 {
 	ChangePulseRegister(RIDC, GIMBALX, x);
@@ -119,6 +127,10 @@ void TogglePiezo(unsigned char a)
 	ChangePulseRegister(RIDD, PIEZOBUZZER, a);
 }
 
+
+//////////////////////////////////////////////////////////////////////////
+// Digital Module Controls
+//////////////////////////////////////////////////////////////////////////
 void ToggleWinch(uint8_t flagval)
 {
 	if((flagval & FLAG0) == FLAG0) {
@@ -168,18 +180,45 @@ void ToggleLandingGearNotify(uint8_t flagval)
 }
 
 
+//////////////////////////////////////////////////////////////////////////
+// Shift Register Module Controls
+//////////////////////////////////////////////////////////////////////////
 void ToggleLaunchRegister(uint8_t flagval)
 {
+	SHIFTREGSETPORT &= ~(1 << PROJSHIFTREGSET);
+	_delay_ms(SHIFTREG_TRANSPERIOD);
 	
+	for(uint8_t i = 0; i < 8; i++) {
+		if(flagval & (1 << i) == (1 << i)) {
+			SHIFTREGDATAPORT |= (1 << SHIFTREGDATA);
+		}
+		
+		SHIFTREGSETPORT |= (1 << PROJSHIFTREGSET);
+		_delay_ms(SHIFTREG_TRANSPERIOD);
+		SHIFTREGSETPORT &= ~(1 << PROJSHIFTREGSET);
+		_delay_ms(SHIFTREG_TRANSPERIOD);
+	}
+	
+	SHIFTREGSETPORT &= ~(1 << PROJSHIFTREGSET);
+	SHIFTREGDATAPORT &= ~(1 << SHIFTREGDATA);
 }
 
 void ToggleAccessoryRegister(uint8_t flagval)
 {
+	SHIFTREGSETPORT &= ~(1 << ACCESSORYSHIFTREGSET);
+	_delay_ms(SHIFTREG_TRANSPERIOD);
 	
-}
-
-
-void HandlePulseRegisters(double elapsedtime)
-{
+	for(uint8_t i = 0; i < 8; i++) {
+		if(flagval & (1 << i) == (1 << i)) {
+			SHIFTREGDATAPORT |= (1 << SHIFTREGDATA);
+		}
+		
+		SHIFTREGSETPORT |= (1 << ACCESSORYSHIFTREGSET);
+		_delay_ms(SHIFTREG_TRANSPERIOD);
+		SHIFTREGSETPORT &= ~(1 << ACCESSORYSHIFTREGSET);
+		_delay_ms(SHIFTREG_TRANSPERIOD);
+	}
 	
+	SHIFTREGSETPORT &= ~(1 << ACCESSORYSHIFTREGSET);
+	SHIFTREGDATAPORT &= ~(1 << SHIFTREGDATA);
 }
