@@ -4,9 +4,16 @@
  * Created: 02/08/2018 9:13:29 PM
  *  Author: nichh
  */ 
+
+//////////////////////////////////////////////////////////////////////////
+// Includes
+//////////////////////////////////////////////////////////////////////////
 #include "Manager.h"
 
-struct PulseRegister PulseModules[3] = {
+//////////////////////////////////////////////////////////////////////////
+// Extern Implementations
+//////////////////////////////////////////////////////////////////////////
+struct PulseRegister PulseModules[PULSE_MODULE_COUNT] = {
 	{RIDC, GIMBALX, 0x00, 0, {0x00, 0}},
 	{RIDC, GIMBALY, 0x00, 0, {0x00, 0}},
 	{RIDC, GIMBALZ, 0x00, 0, {0x00, 0}},
@@ -16,6 +23,12 @@ struct PulseRegister PulseModules[3] = {
 	{RIDD, PIEZOBUZZER, 0x00, 0, {0x00, 0}}
 };
 
+unsigned int DutyCyclePeriod = 0;
+
+
+//////////////////////////////////////////////////////////////////////////
+// Manager Functions
+//////////////////////////////////////////////////////////////////////////
 void InitializeManager(void)
 {
 	uint8_t servos = (1 << GIMBALX) | (1 << GIMBALY) | (1 << GIMBALZ) | (1 << LANDINGGEAR) | (1 << THERMSWIVELX) | (1 << THERMSWIVELY);
@@ -60,10 +73,8 @@ void InitializeManager(void)
 
 struct PulseRegister *FindPulseModule(enum RegisterId rid, unsigned char num)
 {
-	for(uint8_t i = 0; i < PULSE_MODULE_COUNT; i++)
-	{
-		if(PulseModules[i].RID == rid && PulseModules[i].RegisterNumber == num)
-		{
+	for(uint8_t i = 0; i < PULSE_MODULE_COUNT; i++) {
+		if(PulseModules[i].RID == rid && PulseModules[i].RegisterNumber == num) {
 			return &PulseModules[i];
 		}
 	}
@@ -110,21 +121,17 @@ void TogglePiezo(unsigned char a)
 
 void ToggleWinch(uint8_t flagval)
 {
-	if((flagval & FLAG0) == FLAG0)
-	{
+	if((flagval & FLAG0) == FLAG0) {
 		WINCHPORT |= WINCHPOS;
 	}
-	else
-	{
+	else {
 		WINCHPORT &= ~WINCHPOS;
 	}
 	
-	if((flagval & FLAG1) == FLAG1)
-	{
+	if((flagval & FLAG1) == FLAG1) {
 		WINCHPORT |= WINCHNEG;
 	}
-	else
-	{
+	else {
 		WINCHPORT &= ~WINCHNEG;
 	}
 }
@@ -132,36 +139,30 @@ void ToggleWinch(uint8_t flagval)
 
 void ToggleProjectileNotify(uint8_t flagval)
 {
-	if((flagval & FLAG0) == FLAG0)
-	{
+	if((flagval & FLAG0) == FLAG0) {
 		NOTIFYPORT |= PROJLAUNCHNOTIFY;
 	}
-	else
-	{
+	else {
 		NOTIFYPORT &= ~PROJLAUNCHNOTIFY;
 	}
 }
 
 void ToggleWinchNotify(uint8_t flagval)
 {
-	if((flagval & FLAG0) == FLAG0)
-	{
+	if((flagval & FLAG0) == FLAG0) {
 		NOTIFYPORT |= WINCHACTIVENOTIFY;
 	}
-	else
-	{
+	else {
 		NOTIFYPORT &= ~WINCHACTIVENOTIFY;	
 	}
 }
 
 void ToggleLandingGearNotify(uint8_t flagval)
 {
-	if((flagval & FLAG0) == FLAG0)
-	{
+	if((flagval & FLAG0) == FLAG0) {
 		NOTIFYPORT |= LANDINGGEARACTIVENOTIFY;
 	}
-	else
-	{
+	else {
 		NOTIFYPORT &= ~LANDINGGEARACTIVENOTIFY;
 	}
 }
