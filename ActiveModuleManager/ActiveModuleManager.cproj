@@ -150,12 +150,6 @@
     <Compile Include="Registers.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Rendering.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Rendering.h">
-      <SubType>compile</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="COM" />
