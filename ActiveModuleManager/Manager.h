@@ -33,7 +33,7 @@
 /**
  * The duty cycle resolution of all pulse width related modules.
  */
-extern unsigned int DutyCyclePeriod; //Must be more than 4Hz and less than 500Hz.  Default is 60Hz
+extern unsigned int DutyCyclePeriod; //Must be more than 4Hz and less than 500Hz.  Default is 60Hz as set in Initialize.
 
 /**
  * Contains all pulse width modules.
@@ -52,6 +52,7 @@ struct PulseRegister
 	unsigned char RegisterNumber;
 	unsigned char Alpha;
 	unsigned char DutyCycle;
+	uint8_t IsOn;
 	
 	struct PulseRegisterSave Save;
 };
@@ -110,6 +111,15 @@ void InitializeManager(void);
  * @param double: Total elapsed system time.
  */
 void HandlePulseRegisters(double);
+
+/*!
+ * Changes the register value of the pulse module.
+ * @param enum RegisterId: The register the module can be found on.
+ * @param unsigned char: The pin number the module can be found on.
+ * @param uint8_t: Flags ([0]: Port Active)
+ * @see HandlePulseRegisters
+ */
+void ActivatePulseRegister(enum RegisterId, unsigned char, uint8_t);
 
 /*!
  * Gets a pulse-width module from the registered collection.

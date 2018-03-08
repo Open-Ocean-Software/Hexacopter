@@ -14,13 +14,13 @@
 // Extern Implementations
 //////////////////////////////////////////////////////////////////////////
 struct PulseRegister PulseModules[PULSE_MODULE_COUNT] = {
-	{RIDC, GIMBALX, 0x00, 0, {0x00, 0}},
-	{RIDC, GIMBALY, 0x00, 0, {0x00, 0}},
-	{RIDC, GIMBALZ, 0x00, 0, {0x00, 0}},
-	{RIDC, THERMSWIVELX, 0x00, 0, {0x00, 0}},
-	{RIDC, THERMSWIVELY, 0x00, 0, {0x00, 0}},
-	{RIDC, LANDINGGEAR, 0x00, 0, {0x00, 0}},
-	{RIDD, PIEZOBUZZER, 0x00, 0, {0x00, 0}}
+	{RIDC, GIMBALX, 0x00, 0, 0x0, {0x00, 0}},
+	{RIDC, GIMBALY, 0x00, 0, 0x0, {0x00, 0}},
+	{RIDC, GIMBALZ, 0x00, 0, 0x0, {0x00, 0}},
+	{RIDC, THERMSWIVELX, 0x00, 0, 0x0, {0x00, 0}},
+	{RIDC, THERMSWIVELY, 0x00, 0, 0x0, {0x00, 0}},
+	{RIDC, LANDINGGEAR, 0x00, 0, 0x0, {0x00, 0}},
+	{RIDD, PIEZOBUZZER, 0x00, 0, 0x0, {0x00, 0}}
 };
 
 unsigned int DutyCyclePeriod = 0;
@@ -69,7 +69,53 @@ void InitializeManager(void)
 	DutyCyclePeriod = (unsigned int)(1.0f / ((float)DEFAULTDUTYFREQUENCY) * 1000.0f);
 }
 
+void HandlePulseRegisters(double elapsedtime)
+{
+	unsigned int elapsedms = (unsigned int)(elapsedtime * 1000.0);
+	unsigned int currentcyclems = elapsedms % DutyCyclePeriod;
+	
+	unsigned int moduledutycycle = 0;
+	for(uint8_t i = 0; i < PULSE_MODULE_COUNT; i++) {
+		moduledutycycle = (unsigned int)(PulseModules[i].DutyCycle * 1000.0);
+		if(moduledutycycle <= currentcyclems && PulseModules[i].IsOn == 0x0) {
+			
+			PulseModules[i].IsOn = 0x1;
+		}
+		else if(moduledutycycle > currentcyclems && PulseModules[i].IsOn != 0x0) {
+			
+			PulseModules[i].IsOn = 0x0;
+		}
+	}
+}
 
+void ActivatePulseRegister(enum RegisterId rid, unsigned char num, uint8_t flagval)
+{
+	uint8_t regval = (1 << num);
+	if(rid == RIDB) {
+		if((flagval & 0x1) == 0x1) {
+			PORTB |= regval;
+		}
+		else {
+			PORTB &= ~(regval);
+		}
+	}
+	else if(rid == RIDC) {
+		if((flagval & 0x1) == 0x1) {
+			PORTC |= regval;
+		}
+		else {
+			PORTC &= ~(regval);
+		}
+	}
+	else if(rid == RIDD) {
+		if((flagval & 0x1) == 0x1) {
+			PORTD |= regval;
+		}
+		else {
+			PORTD &= ~(regval);
+		}
+	}
+}
 
 struct PulseRegister *FindPulseModule(enum RegisterId rid, unsigned char num)
 {
@@ -92,12 +138,6 @@ void ChangePulseRegister(enum RegisterId rid, unsigned char num, unsigned char v
 unsigned char ConvertAlphaToDuty(unsigned char alpha)
 {
 	return (unsigned char)(((float)alpha / 255.0f) * (float)DutyCyclePeriod);
-}
-
-
-void HandlePulseRegisters(double elapsedtime)
-{
-	//TODO: Implement
 }
 
 
