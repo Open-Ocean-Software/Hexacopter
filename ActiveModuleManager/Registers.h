@@ -89,6 +89,47 @@ struct Register{
 // Functions
 //////////////////////////////////////////////////////////////////////////
 
-//Load/Unload (from fifo)
+//////////////////////////////////////////////////////////////////////////
+// System Controls
+
+/*!
+ * Sets up the register functionality.
+ */
+void InitializeRegisters(void);
+
+/*!
+ * Loads saved register data from the microcontroller's FIFO.
+ */
+void LoadDataFromFIFO(void);
+
+/*!
+ * Saves latest register data to the microcontroller's FIFO.
+ */
+void UnloadDataToFIFO(void);
+
+
+//////////////////////////////////////////////////////////////////////////
+// Register Alterations
+
+/*!
+ * Activated when the control register is changed.
+ * @param uint8_t: The Register Id accessed.
+ * @param unsigned char: The command sent.
+ */
+void RegAlt_Control(uint8_t, unsigned char);
+
+/*!
+ * 
+ * @param
+ * @see
+ * @return
+ */
+void RegAlt_Presets(uint8_t, unsigned char);
+void RegAlt_Gimbal(uint8_t, unsigned char);
+void RegAlt_LandingGear(uint8_t, unsigned char);
+void RegAlt_ThermalSwivel(uint8_t, unsigned char);
+void RegAlt_PiezoBuzzer(uint8_t, unsigned char);
+void RegAlt_Projectiles(uint8_t, unsigned char);
+void RegAlt_Accessories(uint8_t, unsigned char);
 
 #endif /* REGISTERS_H_ */
