@@ -36,5 +36,74 @@ struct Register Registers[REGISTER_COUNT] = {
 void InitializeRegisters(void)
 {
 	SPIInitialize();
-	
+}
+
+void LoadDataFromFIFO(void)
+{
+	for(uint8_t i = 0; i < REGISTER_COUNT; i++) {
+		//Wait for previous read to complete
+		while(EECR & (1 << EEWE));
+		//Set register address
+		EEAR = (unsigned int)(EEPROM_BASE_REGISTER + i);
+		//Triggers an EEPROM read
+		EECR |= (1 << EERE);
+		//Read data into register
+		Registers[i].Value = EEDR;
+	}
+}
+
+void UnloadDataToFIFO(void)
+{
+	for(uint8_t i = 0; i < REGISTER_COUNT; i++) {
+		//Wait for previous write
+		while(EECR & (1 << EEWE));
+		//Set register address
+		EEAR = (unsigned int)(EEPROM_BASE_REGISTER + i);
+		//Set register data
+		EEDR = (unsigned char)(Registers[i].Value);
+		//Allows EEPROM write
+		EECR |= (1 << EEMWE);
+		//Starts EEPROM write
+		EECR |= (1 << EEWE);
+	}
+}
+
+struct Register *FindRegister(uint8_t id)
+{
+	for(uint8_t i = 0; i < REGISTER_COUNT; i++) {
+		if(Registers[i].Id == id) {
+			return &Registers[i];
+		}
+	}
+}
+
+void ChangeRegister(uint8_t id, unsigned char val)
+{
+	struct Register *reg = FindRegister(id);
+	(*reg).Value = val;
+	(*reg).Callback(id, val);
+}
+
+void HandleRegisters(void)
+{
+	static unsigned char regaddr = 0x00;
+	unsigned char data;
+	if(SPIPseudoReceive(&data)) {
+		if(regaddr) {
+			if(FindRegister(REG_CONTROL)->Value & (1 << REG_CONTROL_ENABLE) || regaddr == REG_CONTROL) {
+				if((regaddr & READWRITE_FILTER_VALUE) == WRITE_FILTER_VALUE) {
+					ChangeRegister(regaddr, data);
+				}
+			}
+			regaddr = 0x00;
+		}
+		else {
+			regaddr = data;
+			if(FindRegister(REG_CONTROL)->Value & (1 << REG_CONTROL_ENABLE) && (regaddr & READWRITE_FILTER_VALUE) == READWRITE_FILTER_VALUE) {
+				struct Register *regref = FindRegister(regaddr);
+				SPIPseudoTransmit((*regref).Value);
+				regaddr = 0x00;
+			}
+		}
+	}
 }

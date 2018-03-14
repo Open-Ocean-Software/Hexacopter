@@ -21,10 +21,12 @@
 
 //////////////////////////////////////////////////////////////////////////
 // System
-#define REGISTER_COUNT
+#define REGISTER_COUNT 11
 #define READ_FILTER_VALUE 0x00
 #define WRITE_FILTER_VALUE 0x80
 #define READWRITE_FILTER_VALUE 0x80
+
+#define EEPROM_BASE_REGISTER 0x01
 
 //////////////////////////////////////////////////////////////////////////
 // Register Id's
@@ -107,6 +109,27 @@ void LoadDataFromFIFO(void);
  */
 void UnloadDataToFIFO(void);
 
+/*!
+ * Finds the register matching an id.
+ * @param uint8_t: The Id of the register
+ * @see Registers
+ * @return struct Register *: A reference to the register's structure
+ */
+struct Register *FindRegister(uint8_t);
+
+/*!
+ * Changes the register matching an id.
+ * @param uint8_t: The Id of the register
+ * @param unsigned char: The new value for the register
+ * @see Registers
+ */
+void ChangeRegister(uint8_t, unsigned char);
+
+/*!
+ * Called to handle protocol changes in registers.
+ */
+void HandleRegisters(void);
+
 
 //////////////////////////////////////////////////////////////////////////
 // Register Alterations
@@ -119,17 +142,52 @@ void UnloadDataToFIFO(void);
 void RegAlt_Control(uint8_t, unsigned char);
 
 /*!
- * 
- * @param
- * @see
- * @return
+ * Activated when the presets register is changed.
+ * @param uint8_t: The Register Id accessed.
+ * @param unsigned char: The command sent.
  */
 void RegAlt_Presets(uint8_t, unsigned char);
+
+/*!
+ * Activated when the gimbal register is changed.
+ * @param uint8_t: The Register Id accessed.
+ * @param unsigned char: The command sent.
+ */
 void RegAlt_Gimbal(uint8_t, unsigned char);
+
+/*!
+ * Activated when the landing gear register is changed.
+ * @param uint8_t: The Register Id accessed.
+ * @param unsigned char: The command sent.
+ */
 void RegAlt_LandingGear(uint8_t, unsigned char);
+
+/*!
+ * Activated when the thermal swivel register is changed.
+ * @param uint8_t: The Register Id accessed.
+ * @param unsigned char: The command sent.
+ */
 void RegAlt_ThermalSwivel(uint8_t, unsigned char);
+
+/*!
+ * Activated when the piezo buzzer register is changed.
+ * @param uint8_t: The Register Id accessed.
+ * @param unsigned char: The command sent.
+ */
 void RegAlt_PiezoBuzzer(uint8_t, unsigned char);
+
+/*!
+ * Activated when the projectiles register is changed.
+ * @param uint8_t: The Register Id accessed.
+ * @param unsigned char: The command sent.
+ */
 void RegAlt_Projectiles(uint8_t, unsigned char);
+
+/*!
+ * Activated when the accessories register is changed.
+ * @param uint8_t: The Register Id accessed.
+ * @param unsigned char: The command sent.
+ */
 void RegAlt_Accessories(uint8_t, unsigned char);
 
 #endif /* REGISTERS_H_ */
