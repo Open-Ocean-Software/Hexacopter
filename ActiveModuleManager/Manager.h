@@ -15,6 +15,7 @@
 #include <avr/interrupt.h>
 
 #include "PinLabels.h"
+#include "Registers.h"
 
 //////////////////////////////////////////////////////////////////////////
 // Constants
@@ -26,6 +27,8 @@
 #define MAXDUTYFREQUENCY 500		//The absolute maxumum Duty Cycle Frequency (Hz)
 
 #define SHIFTREG_TRANSPERIOD 3		//The transition period for setting each bit in the shift register (ms)
+
+#define MAXPROJECTILES 8			//The total number of projectiles available
 
 //////////////////////////////////////////////////////////////////////////
 // Externals

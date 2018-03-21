@@ -107,3 +107,84 @@ void HandleRegisters(void)
 		}
 	}
 }
+
+
+//////////////////////////////////////////////////////////////////////////
+// Register Alteration Functions
+//////////////////////////////////////////////////////////////////////////
+
+void RegAlt_Control(uint8_t ctrl, unsigned char cmd)
+{
+	if (cmd & REG_CONTROL_RESETALL) {
+		for(uint8_t i = 0; i < REGISTER_COUNT; i++) {
+			Registers[i].Value = Registers[i].DefaultValue;
+			Registers[i].Callback(Registers[i].Id, Registers[i].DefaultValue);
+		}
+	}
+	if (cmd & REG_CONTROL_ENABLENOTIFY == 0x0) {
+		ToggleProjectileNotify(FLAGNONE);
+		ToggleWinchNotify(FLAGNONE);
+		ToggleLandingGearNotify(FLAGNONE);
+	}
+	if (cmd & REG_CONTROL_ENABLEPIEZO == 0x0) {
+		TogglePiezo(FLAGNONE);
+	}
+	if (cmd & REG_CONTROL_ENABLEPROJ == 0x0) {
+		ToggleLaunchRegister(FLAGNONE);
+	}
+	if (cmd & REG_CONTROL_LAUNCHNEXT == 0x0) {
+		static unsigned char launchorder = -1;
+		launchorder++;
+		if (launchorder >= MAXPROJECTILES) {
+			launchorder = -1;
+			ToggleLaunchRegister(FLAGNONE);
+		} else {
+			ToggleLaunchRegister((1 << launchorder));
+		}
+	}
+	if (cmd & REG_CONTROL_WINCHUP || cmd & REG_CONTROL_WINCHDOWN) {
+		uint8_t winchval = 0x0;
+		if (cmd & REG_CONTROL_WINCHUP) {
+			winchval |= FLAG1;
+		}
+		if (cmd & REG_CONTROL_WINCHDOWN) {
+			winchval |= FLAG0;
+		}
+		ToggleWinch(winchval);
+	}
+}
+
+void RegAlt_Presets(uint8_t ctrl, unsigned char cmd)
+{
+	
+}
+
+void RegAlt_Gimbal(uint8_t ctrl, unsigned char cmd)
+{
+	
+}
+
+void RegAlt_LandingGear(uint8_t ctrl, unsigned char cmd)
+{
+	
+}
+
+void RegAlt_ThermalSwivel(uint8_t ctrl, unsigned char cmd)
+{
+	
+}
+
+void RegAlt_PiezoBuzzer(uint8_t ctrl, unsigned char cmd)
+{
+	
+}
+
+void RegAlt_Projectiles(uint8_t ctrl, unsigned char cmd)
+{
+	
+}
+
+void RegAlt_Accessories(uint8_t ctrl, unsigned char cmd)
+{
+	
+}

@@ -77,12 +77,13 @@ void HandlePulseRegisters(double elapsedtime)
 	unsigned int moduledutycycle = 0;
 	for(uint8_t i = 0; i < PULSE_MODULE_COUNT; i++) {
 		moduledutycycle = (unsigned int)(PulseModules[i].DutyCycle * 1000.0);
+		unsigned char regval = 0x00;
 		if(moduledutycycle <= currentcyclems && PulseModules[i].IsOn == 0x0) {
-			
+			ActivatePulseRegister(PulseModules[i].RID, PulseModules[i].RegisterNumber, FLAG0);
 			PulseModules[i].IsOn = 0x1;
 		}
 		else if(moduledutycycle > currentcyclems && PulseModules[i].IsOn != 0x0) {
-			
+			ActivatePulseRegister(PulseModules[i].RID, PulseModules[i].RegisterNumber, FLAGNONE);
 			PulseModules[i].IsOn = 0x0;
 		}
 	}
