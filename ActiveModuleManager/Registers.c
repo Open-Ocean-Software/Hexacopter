@@ -156,35 +156,53 @@ void RegAlt_Control(uint8_t ctrl, unsigned char cmd)
 
 void RegAlt_Presets(uint8_t ctrl, unsigned char cmd)
 {
-	
+	//TODO: Implement
 }
 
 void RegAlt_Gimbal(uint8_t ctrl, unsigned char cmd)
 {
-	
+	static unsigned char gimbalvals[3] = {0x00, 0x00, 0x00};
+	if (ctrl == REG_GIMBALX) {
+		gimbalvals[0] = cmd;
+	} else if (ctrl == REG_GIMBALY) {
+		gimbalvals[1] = cmd;	
+	} else if (ctrl == REG_GIMBALZ) {
+		gimbalvals[2] = cmd;
+	}
+	ToggleGimbal(gimbalvals[0], gimbalvals[1], gimbalvals[2]);
 }
 
 void RegAlt_LandingGear(uint8_t ctrl, unsigned char cmd)
 {
-	
+	ToggleLandingGear(cmd);
 }
 
 void RegAlt_ThermalSwivel(uint8_t ctrl, unsigned char cmd)
 {
-	
+	static unsigned char thermswvlvals[2] = {0x00, 0x00};
+	if (ctrl == REG_THERMSWVLX) {
+		thermswvlvals[0] = cmd;
+	} else if (ctrl == REG_THERMSWVLY) {
+		thermswvlvals[1] = cmd;
+	}
+	ToggleThermalSwivel(thermswvlvals[0], thermswvlvals[1]);
 }
 
 void RegAlt_PiezoBuzzer(uint8_t ctrl, unsigned char cmd)
 {
-	
+	if (FindRegister(REG_CONTROL)->Value & REG_CONTROL_ENABLEPIEZO) {
+		TogglePiezo(cmd);
+	}
 }
 
 void RegAlt_Projectiles(uint8_t ctrl, unsigned char cmd)
 {
-	
+	if (FindRegister(REG_CONTROL)->Value & REG_CONTROL_ENABLEPROJ) {
+		ToggleLaunchRegister((uint8_t)cmd);
+	}
 }
 
 void RegAlt_Accessories(uint8_t ctrl, unsigned char cmd)
 {
-	
+	ToggleAccessoryRegister((uint8_t)cmd);
 }

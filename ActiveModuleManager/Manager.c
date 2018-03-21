@@ -160,6 +160,11 @@ void ToggleThermalSwivel(unsigned char x, unsigned char y)
 
 void ToggleLandingGear(unsigned char a)
 {
+	if (a != 0x00) {
+		ToggleLandingGearNotify(FLAG0);
+	} else {
+		ToggleLandingGearNotify(FLAGNONE);
+	}
 	ChangePulseRegister(RIDC, LANDINGGEAR, a);
 }
 
@@ -174,6 +179,12 @@ void TogglePiezo(unsigned char a)
 //////////////////////////////////////////////////////////////////////////
 void ToggleWinch(uint8_t flagval)
 {
+	if (flagval != FLAGNONE) {
+		ToggleWinchNotify(FLAG0);
+	} else {
+		ToggleWinchNotify(FLAGNONE);
+	}
+	
 	if((flagval & FLAG0) == FLAG0) {
 		WINCHPORT |= WINCHPOS;
 	}
@@ -192,7 +203,7 @@ void ToggleWinch(uint8_t flagval)
 
 void ToggleProjectileNotify(uint8_t flagval)
 {
-	if((flagval & FLAG0) == FLAG0) {
+	if((flagval & FLAG0) == FLAG0 && FindRegister(REG_CONTROL) & REG_CONTROL_ENABLENOTIFY) {
 		NOTIFYPORT |= PROJLAUNCHNOTIFY;
 	}
 	else {
@@ -202,7 +213,7 @@ void ToggleProjectileNotify(uint8_t flagval)
 
 void ToggleWinchNotify(uint8_t flagval)
 {
-	if((flagval & FLAG0) == FLAG0) {
+	if((flagval & FLAG0) == FLAG0 && FindRegister(REG_CONTROL) & REG_CONTROL_ENABLENOTIFY) {
 		NOTIFYPORT |= WINCHACTIVENOTIFY;
 	}
 	else {
@@ -212,7 +223,7 @@ void ToggleWinchNotify(uint8_t flagval)
 
 void ToggleLandingGearNotify(uint8_t flagval)
 {
-	if((flagval & FLAG0) == FLAG0) {
+	if((flagval & FLAG0) == FLAG0 && FindRegister(REG_CONTROL) & REG_CONTROL_ENABLENOTIFY) {
 		NOTIFYPORT |= LANDINGGEARACTIVENOTIFY;
 	}
 	else {
@@ -226,6 +237,12 @@ void ToggleLandingGearNotify(uint8_t flagval)
 //////////////////////////////////////////////////////////////////////////
 void ToggleLaunchRegister(uint8_t flagval)
 {
+	if (flagval != FLAGNONE) {
+		ToggleProjectileNotify(FLAG0);
+	} else {
+		ToggleProjectileNotify(FLAGNONE);
+	}
+	
 	SHIFTREGSETPORT &= ~(1 << PROJSHIFTREGSET);
 	_delay_ms(SHIFTREG_TRANSPERIOD);
 	
