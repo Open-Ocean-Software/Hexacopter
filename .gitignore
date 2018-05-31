@@ -1,0 +1,17 @@
+# Ignore BIN
+Control/bin/*
+Drone/bin/*
+
+# Ignore Projects
+Control/Communications/*
+Control/GroundControl/*
+
+Drone/Communications/*
+Drone/Flashing/*
+Drone/Flight/*
+Drone/Lighting/*
+Drone/Modules/*
+Drone/Power/*
+Drone/Processes/*
+Drone/Rotors/*
+Drone/Sensors/*
